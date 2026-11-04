@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 set -euo pipefail
 if command -v powershell.exe >/dev/null 2>&1; then
+    # PowerShell expands $false; Bash must pass it literally.
+    # shellcheck disable=SC2016
     powershell.exe -NoProfile -NonInteractive -Command '[Console]::OutputEncoding = [System.Text.UTF8Encoding]::new($false); [Console]::Write((Get-Clipboard -Raw))' | sed 's/\r$//'
 elif [[ -n ${WAYLAND_DISPLAY:-} ]] && command -v wl-paste >/dev/null 2>&1; then
     exec wl-paste --no-newline

@@ -52,6 +52,28 @@ replacement for your global config. Existing requested versions are not changed;
 missing versions may be downloaded. Tools other than Node currently track
 `latest`; pin the versions in the template before a fresh installation if needed.
 
+## Resuming a timed-out installation
+
+The tool installer allows 120 seconds for version lookups and 60 seconds for
+HTTP requests, accommodating corporate proxies. These settings apply only to
+the script; explicit environment overrides are preserved. It keeps mise's
+normal proxy and TLS certificate handling.
+
+APT packages already installed do not need reinstalling. Resume with:
+
+```bash
+./scripts/install-tools.sh
+./scripts/setup.sh
+./scripts/install-plugins.sh
+```
+
+If a lookup still times out, check that your proxy is running and your Kerberos
+ticket is valid, then retry. To allow longer requests explicitly:
+
+```bash
+MISE_FETCH_REMOTE_VERSIONS_TIMEOUT=5m MISE_HTTP_TIMEOUT=2m ./scripts/install-tools.sh
+```
+
 ## Included
 
 - Bash: larger history, case-insensitive completion, prefix history on arrows,
