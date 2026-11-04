@@ -68,6 +68,73 @@ with tempfile.TemporaryDirectory(prefix='dotfiles-wsl-test-') as temp:
     env['PATH'] = '/usr/bin:/bin'
     run('bash', '--noprofile', '--norc', '-ic', 'source "$1"; test -n "$DOTFILES_WSL"; type cdf >/dev/null', 'test', str(ROOT / 'config/bash/init.sh'))
     env['PATH'] = old_path
+    # Exercise imported Bash behavior without sourcing corporate startup or network tools.
+    bash_bin = home / 'bash-test-bin'
+    bash_bin.mkdir()
+    (bash_bin / 'kubectl').write_text('#!/bin/sh\nprintf "kubectl\\n" >> "$HOME/completion-calls"\nprintf "__start_kubectl() { :; }\\n"\n')
+    (bash_bin / 'kubectl').chmod(0o755)
+    for app, emitted in (('try', '_test_try_ready=1'), ('task-planner', '_test_task_ready=1')):
+        (bash_bin / app).write_text(f'#!/bin/sh\nprintf "{app}\\n" >> "$HOME/completion-calls"\nprintf "{emitted}\\n"\n')
+        (bash_bin / app).chmod(0o755)
+    (home / 'A directory').mkdir()
+    (home / 'z-target').mkdir()
+    # A full .bashrc reload would create this marker; the layer reload must not.
+    rc.write_text('touch "$HOME/corporate-reran"\n')
+    bash_test = home / 'check-bash.sh'
+    bash_test.write_text(r"""
+set -e
+export EDITOR=custom-editor MANPAGER=less
+source "$1"
+[[ $EDITOR == custom-editor && $MANPAGER == less ]]
+[[ $DOTFILES == "$DOTFILES_WSL" && $- != *h* ]]
+first_path=$PATH
+# fzf runs previews in a child shell, where a Bash-only bat alias is unavailable.
+fzf() { printf '%s\n' "$@" > "$HOME/fzf-preview-args"; }
+ff
+unset -f fzf
+if ! type -P bat >/dev/null && type -P batcat >/dev/null; then
+    command grep -q batcat "$HOME/fzf-preview-args"
+fi
+[[ $(alias vim) == "alias vim='nvim'" ]]
+[[ $(alias cd) == "alias cd='zd'" ]]
+zd "$HOME/A directory"
+[[ $PWD == "$HOME/A directory" ]]
+zd -- "$HOME/z-target"
+[[ $PWD == "$HOME/z-target" ]]
+zd - >/dev/null
+[[ $PWD == "$HOME/A directory" ]]
+zd -P "$HOME/z-target"
+[[ $PWD == "$HOME/z-target" ]]
+z() { [[ $1 == fuzzy-project ]]; builtin cd -- "$HOME/A directory"; }
+zd fuzzy-project
+[[ $PWD == "$HOME/A directory" ]]
+# Pull/push helpers pass the current branch and arguments without running real Git.
+git() {
+    if [[ $1 == branch ]]; then printf 'feature/example\n';
+    else printf '%s\n' "$@" >> "$HOME/git-arguments"; fi
+}
+ggpull --ff-only
+ggpush --dry-run
+unset -f git
+_reload_bashrc
+[[ $PATH == "$first_path" && ! -e $HOME/corporate-reran ]]
+[[ $_test_try_ready == 1 && $_test_task_ready == 1 ]]
+complete -p k | command grep -q __start_kubectl
+bind -X | command grep -Fq '_reload_bashrc'
+bind -v | command grep -Fq 'set page-completions off'
+""".lstrip())
+    env['PATH'] = str(bash_bin) + ':/usr/bin:/bin'
+    result = run('bash', '--noprofile', '--norc', '-i', str(bash_test), str(ROOT / 'config/bash/init.sh'))
+    assert 'unknown variable' not in result.stderr and 'command not found' not in result.stderr, result.stderr
+    assert not (home / 'corporate-reran').exists()
+    assert sorted((home / 'completion-calls').read_text().splitlines()) == ['kubectl', 'task-planner', 'try']
+    assert (home / 'git-arguments').read_text().splitlines() == ['pull', 'origin', 'feature/example', '--ff-only', 'push', 'origin', 'feature/example', '--dry-run']
+    # Local overrides are last and can opt out of any imported alias/default.
+    overrides = config / 'dotfiles-wsl.local.sh'
+    overrides.write_text("export EDITOR=local-editor\nalias cd='builtin cd'\n")
+    run('bash', '--noprofile', '--norc', '-ic', 'source "$1"; [[ $EDITOR == local-editor ]]; [[ $(alias cd) == "alias cd=\'builtin cd\'" ]]', 'test', str(ROOT / 'config/bash/init.sh'))
+    overrides.unlink()
+    env['PATH'] = old_path
     # Load the base Neovim config without downloading any plugins or touching real HOME.
     env['DOTFILES_WSL_OFFLINE'] = '1'
     run('nvim', '--headless', '-u', str(ROOT / 'config/nvim/init.lua'), '+qa')
@@ -129,4 +196,4 @@ with tempfile.TemporaryDirectory(prefix='dotfiles-wsl-test-') as temp:
     result = subprocess.run([str(ROOT / 'bin/clipboard-copy')], input=content.encode(), env=env, capture_output=True)
     assert result.returncode == 0, result.stderr
     assert log.read_bytes().decode('utf-16le') == content
-print('Offline checks passed: setup/restore, Bash, Neovim, session picker, mise preservation, clipboard encoding.')
+print('Offline checks passed: setup/restore, Bash aliases/reload/overrides, Neovim, session picker, mise preservation, clipboard encoding.')

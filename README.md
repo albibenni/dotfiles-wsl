@@ -78,10 +78,12 @@ MISE_FETCH_REMOTE_VERSIONS_TIMEOUT=5m MISE_HTTP_TIMEOUT=2m ./scripts/install-too
 
 ## Included
 
-- Bash: larger history, case-insensitive completion, prefix history on arrows,
-  Git shortcuts, `n` for Neovim, `cdf` for this repo, `ff` for file previews.
+- Bash: original Readline/history settings, Git and Kubernetes shortcuts,
+  dotfile-editing helpers, Neovim aliases, `ff` previews and Ctrl+S layer reload.
+  Existing `.bashrc` remains intact; this layer loads from its existing loader.
 - fzf: Ctrl+R history, Ctrl+T files, Alt+C directories. Standard Tab completion.
-- zoxide: `z` for directory jumping; `cd` retains Bash semantics.
+- zoxide: original smart `cd` via `zd` plus `z`; existing directories, multiple
+  arguments, options and `cd -` retain builtin Bash behavior.
 - eza with Nerd Font file icons and bat, handling Ubuntu's `batcat` and `fdfind` executable names.
 - Starship: the original cyan two-line prompt with Nerd Font Git/language icons,
   detailed Git state, language versions, Docker/Kubernetes context when relevant,
@@ -112,7 +114,10 @@ party repositories.
 |---|---|---|
 | Bash | Ctrl+F | Select project and attach/switch tmux session |
 | Bash | Ctrl+R | fzf command history |
-| Bash | `z name` | Jump to a previously visited directory |
+| Bash | `z name` / `cd name` | Jump to a previously visited directory |
+| Bash | Ctrl+S | Reload only the dotfiles Bash layer |
+| Bash | `cdd` / `cdf` | Open this dotfiles directory |
+| Bash | `vid` / `vimvim` / `vimux` | Edit dotfiles / Neovim / tmux config |
 | tmux | Ctrl+B then h/j/k/l | Select pane |
 | tmux | Ctrl+B then H/J/K/L | Resize pane |
 | tmux | Ctrl+B then f | Project picker in a new window |
@@ -126,6 +131,44 @@ party repositories.
 | Neovim | Ctrl+X Ctrl+O | Native LSP completion menu |
 | Neovim | Space f | Format buffer or selection |
 | Neovim | `:Git` | Fugitive Git interface |
+
+## Bash settings
+
+The existing `.bashrc` is preserved, including corporate Kerberos/proxy startup.
+Its managed loader sources `config/bash/init.sh`. Shell options, aliases,
+environment defaults, Readline settings and optional completion hooks live in
+`config/bash/`, with no recursive sourcing of `personal/` or copied `.bash_profile`.
+
+Ported from the original:
+
+- History append, 32K history entries, completion settings, prefix-history arrows,
+  Unicode input/output, colored file types, symlink completion, and `set +h`.
+- `vim`, `pn`, `python`, `g`, `ga`, `gc`, `gp`, `gst`, `gloo`, `glool`, `gloof`,
+  `gdup`, `gcm`, `gcam`, `gcad`, `ggpull`, `ggpush`, `k`, `kgp`, `kgpw`, `d`.
+- `lsa`, `lt`, `lta`, `..`, `...`, `....`, `n`, `ff`, `cdd`, `vid`, `vimvim`,
+  `vimux`, `git_current_branch`, `gprocess`, and `svim` (using `sudoedit`).
+- Ctrl+F project picker, Ctrl+S reload, and disabled Ctrl+S terminal flow control.
+  Ctrl+S reloads just this layer, so proxy/authentication startup is not repeated.
+- `DOTFILES` points to this repo; editor defaults, Neovim man pager, Go/PNPM paths,
+  and a replacement for the missing `addToPathFront` helper. Existing editor,
+  pager, Go, PNPM, and FZF environment choices are respected.
+- Smart `cd`: existing directory paths and standard options use builtin `cd`;
+  other names use zoxide. Override it locally with `unalias cd` if preferred.
+- kubectl completion for `k`, plus `try` and task-planner initialization, when
+  those commands are installed. These optional applications are not installed
+  just to provide their aliases. `pn` likewise requires pnpm to be installed.
+
+Machine-specific mount/project paths, forced locales/compilers, desktop terminal
+settings, Omarchy/Hyprland commands, generated application startup blocks, and
+secret files are excluded. `storage` works after defining your own `STORAGE` in
+`~/.config/dotfiles-wsl.local.sh`. Personal overrides load last. To reload now:
+
+```bash
+source ~/dotfiles-wsl/config/bash/init.sh
+```
+
+This reload does not edit or re-source `.bashrc`. Open a new shell to discard any
+settings you manually removed from the configuration during the current session.
 
 ## Tmux plugins
 
