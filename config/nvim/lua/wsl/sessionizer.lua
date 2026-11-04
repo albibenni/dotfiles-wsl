@@ -1,28 +1,11 @@
 local M = {}
 function M.projects()
-    local home = vim.env.HOME
-    local roots = { home .. "/projects", home .. "/dotfiles-wsl" }
-    local file = (vim.env.XDG_CONFIG_HOME or (home .. "/.config")) .. "/dotfiles-wsl-projects"
-    if vim.fn.filereadable(file) == 1 then
-        roots = {}
-        for _, line in ipairs(vim.fn.readfile(file)) do
-            if line ~= "" and not line:match("^#") then
-                if line:sub(1, 1) == "~" then line = home .. line:sub(2) end
-                if line:sub(1, 1) == "/" then roots[#roots + 1] = line end
-            end
-        end
+    local output = vim.system({ vim.g.dotfiles_wsl_root .. "/bin/tmux-projects" }, { text = true }):wait()
+    if output.code ~= 0 then
+        vim.notify("Project discovery failed: " .. (output.stderr or "unknown error"), vim.log.levels.WARN)
+        return {}
     end
-    local seen, result = {}, {}
-    for _, path in ipairs(roots) do
-        if vim.fn.isdirectory(path) == 1 then
-            local output = vim.system({ "find", path, "-maxdepth", "2", "-type", "d", "-not", "-path", "*/.git*", "-not", "-path", "*/node_modules*" }, { text = true }):wait()
-            for line in (output.stdout or ""):gmatch("[^\n]+") do
-                if not seen[line] then result[#result + 1] = line; seen[line] = true end
-            end
-        end
-    end
-    table.sort(result)
-    return result
+    return vim.split(output.stdout or "", "\n", { trimempty = true })
 end
 function M.pick()
     local projects = M.projects()

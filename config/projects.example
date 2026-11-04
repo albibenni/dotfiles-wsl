@@ -1,5 +1,4 @@
-# Copy to ~/.config/dotfiles-wsl-projects. One absolute path per line.
-# A leading ~ is expanded; variables and shell code are not evaluated.
-~/projects
-~/dotfiles-wsl
-# /mnt/c/Users/YOUR_WINDOWS_USER/Projects
+# Copy to ~/.config/dotfiles-wsl-projects to override the default roots.
+# One absolute path per line. A leading ~ expands; no variables or shell code.
+~/dotfiles
+/mnt/c/Users/GBS14063

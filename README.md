@@ -254,8 +254,15 @@ cp config/projects.example ~/.config/dotfiles-wsl-projects
 
 Edit it to list your actual project directories, one per line. Leading `~` is
 expanded, and spaces are supported. Variables, shell code, and paths containing
-newlines are not supported in that file. Without it the picker searches
-`~/projects` and `~/dotfiles-wsl`, to depth two. It includes an 8-character path
+newlines are not supported in that file. Without it the picker includes `~/dotfiles` (falling back to this repo if that
+path is absent) and searches `/mnt/c/Users/GBS14063` to depth two, including
+repositories inside its `Projects` directory. This machine's `~/dotfiles` is a
+symlink to `~/dotfiles-wsl`. The dotfiles repo appears once as a project rather
+than exposing all its config folders. `AppData`, `.cache`, `.git` and
+`node_modules` directories are pruned; child symlinks/junctions are not followed.
+Both Bash and Neovim use `bin/tmux-projects`, so their lists stay consistent.
+For a different Windows home, set `DOTFILES_WSL_WINDOWS_HOME` in your local Bash
+overrides or list your preferred roots in the override file. It includes an 8-character path
 hash in session names so equal project basenames do not share a session.
 It creates a background session and attaches outside tmux; inside tmux it switches.
 

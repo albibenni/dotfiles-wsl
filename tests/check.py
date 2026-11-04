@@ -173,6 +173,47 @@ bind -v | command grep -Fq 'set page-completions off'
     run(str(ROOT / 'bin/tmux-sessionizer'), str(other))
     calls = [json.loads(line) for line in log.read_text().splitlines()]
     assert calls[-1][-1] != first_name
+    # Discover Windows projects and the dotfiles alias through the same Bash/Lua helper.
+    windows = home / 'Windows profile'
+    windows_project = windows / 'Projects' / 'A project with spaces'
+    windows_project.mkdir(parents=True)
+    (windows / 'AppData' / 'Hidden project').mkdir(parents=True)
+    (windows / 'node_modules' / 'Hidden dependency').mkdir(parents=True)
+    (windows / 'Projects' / 'A project with spaces' / 'Too deep').mkdir()
+    (home / 'dotfiles').symlink_to(ROOT)
+    env['DOTFILES_WSL_WINDOWS_HOME'] = str(windows)
+    listing = run(str(ROOT / 'bin/tmux-projects')).stdout.splitlines()
+    assert str(home / 'dotfiles') in listing
+    assert str(windows_project) in listing
+    assert str(home / 'dotfiles/config') not in listing
+    assert not any('AppData' in item or 'node_modules' in item or 'Too deep' in item for item in listing)
+    assert listing == sorted(set(listing))
+    env['PROJECT_CANDIDATE_LOG'] = str(home / 'picker-candidates')
+    env['PROJECT_TEST_SELECTION'] = str(windows_project)
+    (fake / 'fzf').write_text('#!/usr/bin/env python3\nimport os, pathlib, sys\npathlib.Path(os.environ["PROJECT_CANDIDATE_LOG"]).write_text(sys.stdin.read())\nprint(os.environ["PROJECT_TEST_SELECTION"])\n')
+    (fake / 'fzf').chmod(0o755)
+    log.write_text('')
+    run(str(ROOT / 'bin/tmux-sessionizer'))
+    assert (home / 'picker-candidates').read_text().splitlines() == listing
+    calls = [json.loads(line) for line in log.read_text().splitlines()]
+    assert calls[1][-2:] == ['-c', str(windows_project)]
+    assert calls[-1][0] == 'switch-client'
+    # Neovim obtains exactly the same list without loading any plugins.
+    env['PROJECT_TEST_ROOT'] = str(ROOT)
+    env['PROJECT_TEST_EXPECTED'] = json.dumps(listing)
+    lua = home / 'check-projects.lua'
+    lua.write_text('vim.g.dotfiles_wsl_root = vim.env.PROJECT_TEST_ROOT\nvim.opt.rtp:prepend(vim.env.PROJECT_TEST_ROOT .. "/config/nvim")\nassert(vim.deep_equal(require("wsl.sessionizer").projects(), vim.json.decode(vim.env.PROJECT_TEST_EXPECTED)))\n')
+    run('nvim', '--headless', '-u', 'NONE', '-i', 'NONE', '-l', str(lua))
+    # An explicit root override is honored, follows a root symlink, and deduplicates.
+    linked = home / 'Windows alias'
+    linked.symlink_to(windows)
+    roots_file = config / 'dotfiles-wsl-projects'
+    roots_file.write_text(f'# override\n{linked}\n{linked}\n')
+    override_listing = run(str(ROOT / 'bin/tmux-projects')).stdout.splitlines()
+    assert str(linked / 'Projects/A project with spaces') in override_listing
+    assert str(home / 'dotfiles') not in override_listing
+    assert len(override_listing) == len(set(override_listing))
+    roots_file.unlink()
     # Test mise merging without downloading tools or changing real configuration.
     (fake / 'mise').write_text('#!/usr/bin/env python3\nimport json, os, sys\nwith open(os.environ["TMUX_TEST_LOG"], "a") as f: f.write(json.dumps(sys.argv[1:]) + "\\n")\n')
     (fake / 'mise').chmod(0o755)

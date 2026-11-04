@@ -1,0 +1,33 @@
+#!/usr/bin/env bash
+# Shared project list for the Bash/fzf and Neovim/Telescope pickers.
+set -euo pipefail
+(( $# == 0 )) || { printf 'Usage: tmux-projects\n' >&2; exit 2; }
+repo=$(cd -- "$(dirname -- "$(readlink -f -- "${BASH_SOURCE[0]}")")/.." && pwd)
+dotfiles="$HOME/dotfiles"
+[[ -d $dotfiles ]] || dotfiles=$repo
+roots=("$dotfiles" "${DOTFILES_WSL_WINDOWS_HOME:-/mnt/c/Users/GBS14063}")
+roots_file="${XDG_CONFIG_HOME:-$HOME/.config}/dotfiles-wsl-projects"
+if [[ -f $roots_file ]]; then
+    roots=()
+    while IFS= read -r path || [[ -n $path ]]; do
+        [[ -z $path || $path == \#* ]] && continue
+        path="${path/#\~/$HOME}"
+        [[ $path == /* ]] || { printf 'Project root must be absolute: %s\n' "$path" >&2; exit 2; }
+        roots+=("$path")
+    done < "$roots_file"
+fi
+{
+    for path in "${roots[@]}"; do
+        [[ -d $path ]] || continue
+        # The dotfiles repo is one selectable project, not a list of config folders.
+        if [[ $(realpath -- "$path") == "$repo" ]]; then
+            printf '%s\n' "$path"
+        else
+            # Follow a symlink only for the supplied root; never follow child junctions.
+            # Ignore inaccessible directories while retaining all readable candidates.
+            find -H "$path" -maxdepth 2 \
+                \( -name .git -o -name node_modules -o -name AppData -o -name .cache \) -prune \
+                -o -type d -print 2>/dev/null || true
+        fi
+    done
+} | sort -u
