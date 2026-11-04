@@ -1,0 +1,337 @@
+# Hyprland/Omarchy port for Windows 11, GlazeWM 3.10.1.
+# Win+L stays Windows lock; use Alt+L or Win+Right. No registry remapping.
+# Hyprland gaps_in=4 on each side becomes an 8px inter-window gap.
+# The installer substitutes {{WSL_DISTRO}} with the selected WSL distro.
+general:
+  startup_commands: []
+  shutdown_commands: []
+  config_reload_commands: []
+  focus_follows_cursor: false
+  toggle_workspace_on_refocus: false
+  cursor_jump:
+    enabled: true
+    trigger: monitor_focus
+  hide_method: cloak
+  show_all_in_taskbar: false
+gaps:
+  scale_with_dpi: true
+  inner_gap: 8px
+  outer_gap:
+    top: 4px
+    right: 4px
+    bottom: 4px
+    left: 4px
+window_effects:
+  focused_window:
+    border:
+      enabled: true
+      color: '#7aa2f7'
+    hide_title_bar:
+      enabled: false
+    corner_style:
+      enabled: true
+      style: small_rounded
+    transparency:
+      enabled: true
+      opacity: 95%
+  other_windows:
+    border:
+      enabled: true
+      color: '#414868'
+    hide_title_bar:
+      enabled: false
+    corner_style:
+      enabled: true
+      style: small_rounded
+    transparency:
+      enabled: true
+      opacity: 85%
+window_behavior:
+  initial_state: tiling
+  state_defaults:
+    floating:
+      centered: true
+      shown_on_top: false
+    fullscreen:
+      maximized: false
+      shown_on_top: false
+workspaces:
+- name: '1'
+  bind_to_monitor: 0
+  keep_alive: true
+- name: '2'
+  bind_to_monitor: 0
+- name: '3'
+  bind_to_monitor: 0
+- name: '4'
+  bind_to_monitor: 0
+- name: '5'
+  bind_to_monitor: 0
+- name: '6'
+  bind_to_monitor: 0
+- name: '7'
+  bind_to_monitor: 0
+- name: '8'
+  bind_to_monitor: 0
+- name: '9'
+  bind_to_monitor: 0
+- name: '10'
+  bind_to_monitor: 1
+  keep_alive: true
+window_rules:
+- commands:
+  - ignore
+  match:
+  - window_process:
+      equals: zebar
+  - window_process:
+      equals: PowerToys
+    window_class:
+      regex: HwndWrapper\[PowerToys\.PowerAccent.*?\]
+  - window_title:
+      equals: Command Palette
+    window_class:
+      equals: WinUIDesktopWin32WindowClass
+- commands:
+  - set-floating --shown-on-top=true --width 600px --height 338px
+  match:
+  - window_title:
+      regex: (?i)picture.?in.?picture
+    window_class:
+      regex: Chrome_WidgetWin_1|MozillaDialogClass
+- commands:
+  - set-floating --centered=true
+  match:
+  - window_class:
+      equals: '#32770'
+  - window_process:
+      regex: (?i)^(CalculatorApp|Calculator|Taskmgr|ApplicationFrameHost)$
+    window_title:
+      regex: (?i)calculator|task manager
+binding_modes: []
+keybindings:
+- bindings:
+  - lwin+h
+  - lwin+left
+  commands:
+  - focus --direction left
+- bindings:
+  - lwin+shift+h
+  - lwin+shift+left
+  commands:
+  - move --direction left
+- bindings:
+  - alt+l
+  - lwin+right
+  commands:
+  - focus --direction right
+- bindings:
+  - lwin+shift+l
+  - lwin+shift+right
+  commands:
+  - move --direction right
+- bindings:
+  - lwin+k
+  - lwin+up
+  commands:
+  - focus --direction up
+- bindings:
+  - lwin+shift+k
+  - lwin+shift+up
+  commands:
+  - move --direction up
+- bindings:
+  - lwin+j
+  - lwin+down
+  commands:
+  - focus --direction down
+- bindings:
+  - lwin+shift+j
+  - lwin+shift+down
+  commands:
+  - move --direction down
+- bindings:
+  - lwin+control+h
+  commands:
+  - resize --width -40px
+- bindings:
+  - lwin+control+l
+  commands:
+  - resize --width +40px
+- bindings:
+  - lwin+control+k
+  commands:
+  - resize --height -40px
+- bindings:
+  - lwin+control+j
+  commands:
+  - resize --height +40px
+- bindings:
+  - lwin+1
+  commands:
+  - focus --workspace 1
+- bindings:
+  - lwin+shift+1
+  commands:
+  - move --workspace 1
+- bindings:
+  - lwin+2
+  commands:
+  - focus --workspace 2
+- bindings:
+  - lwin+shift+2
+  commands:
+  - move --workspace 2
+- bindings:
+  - lwin+3
+  commands:
+  - focus --workspace 3
+- bindings:
+  - lwin+shift+3
+  commands:
+  - move --workspace 3
+- bindings:
+  - lwin+4
+  commands:
+  - focus --workspace 4
+- bindings:
+  - lwin+shift+4
+  commands:
+  - move --workspace 4
+- bindings:
+  - lwin+5
+  commands:
+  - focus --workspace 5
+- bindings:
+  - lwin+shift+5
+  commands:
+  - move --workspace 5
+- bindings:
+  - lwin+6
+  commands:
+  - focus --workspace 6
+- bindings:
+  - lwin+shift+6
+  commands:
+  - move --workspace 6
+- bindings:
+  - lwin+7
+  commands:
+  - focus --workspace 7
+- bindings:
+  - lwin+shift+7
+  commands:
+  - move --workspace 7
+- bindings:
+  - lwin+8
+  commands:
+  - focus --workspace 8
+- bindings:
+  - lwin+shift+8
+  commands:
+  - move --workspace 8
+- bindings:
+  - lwin+9
+  commands:
+  - focus --workspace 9
+- bindings:
+  - lwin+shift+9
+  commands:
+  - move --workspace 9
+- bindings:
+  - lwin+0
+  commands:
+  - focus --workspace 10
+- bindings:
+  - lwin+shift+0
+  commands:
+  - move --workspace 10
+- bindings:
+  - lwin+w
+  commands:
+  - close
+- bindings:
+  - lwin+t
+  - lwin+o
+  commands:
+  - toggle-floating --centered=true
+- bindings:
+  - lwin+f
+  commands:
+  - toggle-fullscreen
+- bindings:
+  - lwin+alt+f
+  commands:
+  - toggle-fullscreen --maximized=true
+- bindings:
+  - lwin+control+f
+  commands:
+  - toggle-fullscreen --maximized=true
+- bindings:
+  - lwin+alt+j
+  commands:
+  - toggle-tiling-direction
+- bindings:
+  - lwin+tab
+  commands:
+  - focus --next-active-workspace
+- bindings:
+  - lwin+shift+tab
+  commands:
+  - focus --prev-active-workspace
+- bindings:
+  - lwin+control+tab
+  commands:
+  - focus --recent-workspace
+- bindings:
+  - lwin+alt+space
+  commands:
+  - wm-cycle-focus
+- bindings:
+  - lwin+shift+t
+  commands:
+  - shell-exec wslg.exe -d {{WSL_DISTRO}} --cd ~ -- /usr/bin/ghostty --gtk-single-instance=true
+- bindings:
+  - lwin+shift+f
+  commands:
+  - shell-exec explorer.exe
+- bindings:
+  - lwin+shift+b
+  commands:
+  - shell-exec explorer.exe https://www.google.com/
+- bindings:
+  - lwin+shift+c
+  commands:
+  - shell-exec explorer.exe https://calendar.google.com/
+- bindings:
+  - lwin+shift+y
+  commands:
+  - shell-exec explorer.exe https://youtube.com/
+- bindings:
+  - lwin+control+g
+  commands:
+  - shell-exec explorer.exe https://gemini.google.com/app
+- bindings:
+  - lwin+control+c
+  commands:
+  - shell-exec explorer.exe https://claude.ai/
+- bindings:
+  - lwin+control+shift+k
+  commands:
+  - shell-exec rundll32.exe user32.dll,LockWorkStation
+- bindings:
+  - lwin+f1
+  commands:
+  - shell-exec notepad.exe %USERPROFILE%/.glzr/glazewm/KEYBINDINGS.txt
+- bindings:
+  - lwin+control+shift+r
+  commands:
+  - wm-reload-config
+- bindings:
+  - lwin+control+shift+p
+  commands:
+  - wm-toggle-pause
+- bindings:
+  - lwin+control+shift+escape
+  commands:
+  - wm-exit

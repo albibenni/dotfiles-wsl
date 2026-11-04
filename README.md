@@ -218,6 +218,23 @@ The CPU figure measures the WSL VM. tmux-cpu works with the existing `ps` fallba
 Kubernetes CLI/context setup is separate: the plugin is installed but hidden
 until `kubectl` or `oc` is available to tmux. It reads local context/namespace.
 
+## Windows tiling with GlazeWM
+
+The optional Windows window manager mirrors the Hyprland workspaces, Vim-style
+controls, Ghostty launcher and appearance using GlazeWM. It uses Windows/Super
+shortcuts, with Alt+L or Win+Right for right focus because Win+L is reserved.
+
+```bash
+./scripts/install-glazewm.sh --dry-run --start
+./scripts/install-glazewm.sh --start
+# Optional Windows sign-in startup:
+./scripts/install-glazewm.sh --startup --start
+```
+
+This installs on Windows through winget, excludes Zebar, and backs up changed
+Windows configs. It is separate from the Linux installer. See
+[GlazeWM setup, shortcuts and differences](docs/glazewm.md).
+
 ## Ghostty on WSL
 
 Ghostty is optional and has its own installer:
