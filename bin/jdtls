@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+set -euo pipefail
+share="${XDG_DATA_HOME:-$HOME/.local/share}/dotfiles-wsl/jdtls/current"
+[[ -f $share/.dotfiles-version ]] || { echo 'JDTLS is not installed. Run scripts/install-jdtls.sh.' >&2; exit 1; }
+version=$(cat "$share/.dotfiles-version")
+if [[ ${1:-} == --version ]]; then printf 'JDTLS %s\n' "$version"; exit 0; fi
+export PATH="$HOME/.local/bin:$PATH"
+# Always run the server on JDK 25, independently of a project's selected JDK.
+java_home=$(mise -C "$HOME" where java@temurin-25)
+export JAVA_HOME="$java_home"
+config="${JDTLS_CONFIG_DIR:-${XDG_CACHE_HOME:-$HOME/.cache}/jdtls/$version}"
+if [[ ! -f $config/config.ini ]]; then
+    mkdir -p "$config"
+    cp -a "$share/config_linux/." "$config/"
+fi
+shopt -s nullglob
+jars=("$share"/plugins/org.eclipse.equinox.launcher_*.jar)
+(( ${#jars[@]} == 1 )) || { echo 'Expected exactly one JDTLS launcher jar.' >&2; exit 1; }
+exec "$java_home/bin/java" \
+    -Declipse.application=org.eclipse.jdt.ls.core.id1 \
+    -Dosgi.bundles.defaultStartLevel=4 -Declipse.product=org.eclipse.jdt.ls.core.product \
+    -Dlog.level=ALL -Xmx1g --add-modules=ALL-SYSTEM \
+    --add-opens java.base/java.util=ALL-UNNAMED --add-opens java.base/java.lang=ALL-UNNAMED \
+    -jar "${jars[0]}" -configuration "$config" "$@"

@@ -56,8 +56,9 @@ are not enabled. Their account credentials and backend configuration were not
 ported. Omarchy theme synchronization and transparency hooks are not needed in
 WSL. Tokyo Night is the original repo's non-Omarchy fallback.
 
-The default installer supplies TypeScript/JavaScript, Python, Bash and Lua
-language tooling. Go, Java, Rust, Zig, HTML/CSS, Docker, GraphQL, Svelte, Biome,
+The default installer supplies TypeScript/JavaScript, Python, Bash, Lua and Java
+language tooling. Java uses a dedicated nvim-jdtls configuration, a pinned server,
+Java 25 and Maven; see [Java setup](java-and-skills.md). Go, Rust, Zig, HTML/CSS, Docker, GraphQL, Svelte, Biome,
 Emmet and Tailwind servers can activate when you install their executables; it
 does not download every language ecosystem automatically. Python Black is in the
 Ubuntu package list; isort/pylint and other specialized formatters/linters remain

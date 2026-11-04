@@ -1,0 +1,25 @@
+{
+  "repository": "https://github.com/albibenni/skills",
+  "revision": "19e5efa3b5988b04424bfa3b1bb33079561d9e85",
+  "skills": [
+    "adaptive-tdd",
+    "code-evaluator",
+    "code-worksheet-master",
+    "coding-principle",
+    "current",
+    "decision-grilling",
+    "exercise-master",
+    "explain",
+    "neuropsicologia-domande-aperte",
+    "onboarding-architecture",
+    "project-onboarding",
+    "quality-master",
+    "question-master",
+    "quiz-master",
+    "review-master",
+    "setup-linting",
+    "split-exercise-master",
+    "typescript-exercise-master",
+    "worksheet-master"
+  ]
+}

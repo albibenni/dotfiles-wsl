@@ -27,8 +27,8 @@ local ok, err = xpcall(function()
     assert(vim.fn.maparg("<leader>ee", "n") ~= "")
     assert(require("lualine").get_config().options.theme.inactive.a.fg ~= nil, "Inactive lualine foreground missing")
     for _, language in ipairs(require("wsl.parsers")) do
-        local parsed, parser_error = pcall(vim.treesitter.language.add, language)
-        assert(parsed, "Parser unavailable: " .. language .. ": " .. tostring(parser_error))
+        local ok, loaded, reason = pcall(vim.treesitter.language.add, language)
+        assert(ok and loaded, "Parser unavailable: " .. language .. ": " .. tostring(reason or loaded))
     end
     vim.cmd("NvimTreeOpen")
     assert(vim.bo.filetype == "NvimTree", "File tree did not open")

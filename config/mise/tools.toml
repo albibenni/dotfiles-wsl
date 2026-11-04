@@ -12,3 +12,8 @@ node = "lts"
 lua-language-server = "latest"
 stylua = "latest"
 lazygit = "latest"
+
+# Java 25 runs JDTLS; projects can choose their own Java version.
+pnpm = "latest"
+java = "temurin-25"
+maven = "latest"

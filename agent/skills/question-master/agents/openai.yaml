@@ -1,0 +1,4 @@
+interface:
+  display_name: "Question Master"
+  short_description: "Create validated open-question study documents."
+  default_prompt: "Use $question-master to create open questions from this note."

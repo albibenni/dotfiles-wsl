@@ -145,6 +145,7 @@ bind -v | command grep -Fq 'set page-completions off'
     # Load the base Neovim config without downloading any plugins or touching real HOME.
     env['DOTFILES_WSL_OFFLINE'] = '1'
     run('nvim', '--headless', '-u', str(ROOT / 'config/nvim/init.lua'), '+qa')
+    run('nvim', '--headless', '-u', 'NONE', '-i', 'NONE', '-l', str(ROOT / 'tests/check-parsers.lua'), str(ROOT / 'scripts/install-nvim-parsers.lua'))
     # Exercise picker argument quoting and attach/switch logic with a fake tmux.
     fake = home / 'fake-bin'
     fake.mkdir()

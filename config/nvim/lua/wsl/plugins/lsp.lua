@@ -23,7 +23,7 @@ return { "neovim/nvim-lspconfig", dependencies = { "hrsh7th/cmp-nvim-lsp" }, con
         end
     end })
     for name, command in pairs({ ts_ls = "typescript-language-server", bashls = "bash-language-server", pyright = "pyright-langserver",
-        lua_ls = "lua-language-server", gopls = "gopls", rust_analyzer = "rust-analyzer", jdtls = "jdtls", zls = "zls",
+        lua_ls = "lua-language-server", gopls = "gopls", rust_analyzer = "rust-analyzer", zls = "zls",
         html = "vscode-html-language-server", cssls = "vscode-css-language-server", dockerls = "docker-langserver",
         tailwindcss = "tailwindcss-language-server", graphql = "graphql-lsp", emmet_ls = "emmet-ls", biome = "biome", svelte = "svelteserver", clangd = "clangd",
     }) do

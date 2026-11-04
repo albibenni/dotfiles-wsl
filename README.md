@@ -22,14 +22,17 @@ The full installer runs these steps, in order:
 1. `scripts/install-packages.sh`: installs Ubuntu packages with `sudo apt-get`.
 2. `scripts/install-tools.sh`: uses your existing mise for missing Node, language
    servers, formatters, lazygit and the Neovim 0.11-compatible Treesitter CLI.
-   Existing tool entries, including `node = "lts"`, win. A separate TypeScript 6
+   pnpm, Temurin Java 25 and Maven are included. Existing tool entries,
+   including `node = "lts"`, win. A separate TypeScript 6
    installation provides tsserver without replacing a global TypeScript 7.
    No mise installer is downloaded.
-3. `scripts/setup.sh`: backs up conflicting configs, creates explicit symlinks,
+3. `scripts/install-jdtls.sh`: installs the pinned, checksummed Java language server.
+4. `scripts/setup.sh`: backs up conflicting configs, creates explicit symlinks,
    and appends one loader block to your existing `.bashrc`.
-4. `scripts/install-tmux-plugins.sh`: installs the four original tmux plugins at
+5. `scripts/install-tmux-plugins.sh`: installs the four original tmux plugins at
    revisions recorded in `config/tmux/plugins.lock`.
-5. `scripts/install-plugins.sh`: restores locked Neovim plugins, builds native
+6. `scripts/install-agent-skills.sh`: installs the 19 vendored skills with backups.
+7. `scripts/install-plugins.sh`: restores locked Neovim plugins, builds native
    fzf, installs syntax parsers, and verifies the UI, mappings and plugin setup.
 
 Open a new Bash shell after installation. Your current shell is not reloaded by
@@ -141,6 +144,13 @@ party repositories.
 | Neovim | Ctrl+F | Telescope tmux project picker |
 | Neovim | Space f | Format buffer or selection |
 | Neovim | `:Git` | Fugitive Git interface |
+
+## pnpm, Java and agent skills
+
+The setup now includes pnpm, Temurin Java 25, Maven, the dedicated Neovim JDTLS
+integration and 19 skills from your original skills repo. See
+[pnpm, Java/JDTLS and agent skills](docs/java-and-skills.md) for paths, shortcuts,
+installer/restore commands and the WSL script review.
 
 ## Bash settings
 
