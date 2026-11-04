@@ -1,0 +1,175 @@
+# dotfiles-wsl
+
+A standalone Bash development environment for Ubuntu on WSL2, adapted from
+[dotfile_arch_btw](https://github.com/albibenni/dotfile_arch_btw).
+No submodules, desktop compositor, Zsh, hardware tweaks, or Arch installers.
+The original repository is not needed after this repository is created.
+
+## Install
+
+Tested against Ubuntu 26.04 with Neovim 0.11.6 and tmux 3.6. Python 3.11+ is
+needed for the setup scripts; Neovim 0.11.3+ is needed for this editor config.
+Use the Linux filesystem, for example `~/dotfiles-wsl`.
+
+```bash
+cd ~/dotfiles-wsl
+./scripts/install.sh --dry-run
+./scripts/install.sh
+```
+
+The full installer runs these steps, in order:
+
+1. `scripts/install-packages.sh`: installs Ubuntu packages with `sudo apt-get`.
+2. `scripts/install-tools.sh`: uses your existing mise to add missing Node,
+   TypeScript/Python/Bash language servers, and Prettier. Existing tool entries,
+   including `node = "lts"`, win. No mise installer is downloaded.
+3. `scripts/setup.sh`: backs up conflicting configs, creates explicit symlinks,
+   and appends one loader block to your existing `.bashrc`.
+4. `scripts/install-plugins.sh`: downloads/restores the locked Neovim plugins with lazy.nvim.
+
+Open a new Bash shell after installation. Your current shell is not reloaded by
+the installer. Corporate Kerberos/proxy startup code stays in the original
+`.bashrc`; `.profile`, `.bash_profile`, SSH, DNS, Docker, credentials, and Git
+identity are not replaced. Do not run the full installer with `sudo`: only the
+APT commands require it. Downloads inherit the current proxy environment.
+
+Each step can also run separately. Package and tool installers accept
+`--dry-run`; setup supports `--dry-run` and optional `--git`.
+
+```bash
+./scripts/setup.sh --git --dry-run
+./scripts/setup.sh --git
+```
+
+`--git` adds an include for delta, a few aliases, LF checkout handling and
+`zdiff3` conflicts. It leaves your existing identity/credentials intact. Install
+packages first, since this optional config requires `delta`. It does not change
+pull/rebase policy or install destructive Git aliases.
+
+The default setup does not modify your mise config until `install-tools.sh`
+runs. The tracked `config/mise/tools.toml` is a list of defaults to merge, not a
+replacement for your global config. Existing requested versions are not changed;
+missing versions may be downloaded. Tools other than Node currently track
+`latest`; pin the versions in the template before a fresh installation if needed.
+
+## Included
+
+- Bash: larger history, case-insensitive completion, prefix history on arrows,
+  Git shortcuts, `n` for Neovim, `cdf` for this repo, `ff` for file previews.
+- fzf: Ctrl+R history, Ctrl+T files, Alt+C directories. Standard Tab completion.
+- zoxide: `z` for directory jumping; `cd` retains Bash semantics.
+- eza and bat, handling Ubuntu's `batcat` and `fdfind` executable names.
+- Starship: compact two-line prompt with Git/runtime information; no special font
+  required. Configure fonts in the terminal application on Windows if desired.
+- tmux: mouse, vi copy mode, pane shortcuts, a Catppuccin-inspired status bar
+  implemented directly in the config. No theme plugin or TPM downloads required.
+- Neovim: Tokyo Night, Telescope, Gitsigns, Fugitive, native LSP/completion and
+  Conform formatting. TypeScript/JavaScript, Python, and Bash language servers.
+  No automatic formatting or whitespace edits on save. No AI credentials or
+  integrations, personal Todoist hooks, or desktop theme dependencies.
+- Windows clipboard helpers with Wayland/X11 fallbacks.
+
+APT packages include the shell tools plus Python, build utilities, SSL
+certificates, Neovim, tmux, ShellCheck, shfmt, Black, and clipboard utilities.
+`ripgrep` is installed explicitly instead of relying on a copy bundled in Codex.
+Older Ubuntu releases may lack `starship`, `eza`, `git-delta`, or a recent Neovim;
+the package script stops on unavailable package names rather than adding third
+party repositories.
+
+## Shortcuts
+
+| Where | Shortcut | Action |
+|---|---|---|
+| Bash | Ctrl+F | Select project and attach/switch tmux session |
+| Bash | Ctrl+R | fzf command history |
+| Bash | `z name` | Jump to a previously visited directory |
+| tmux | Ctrl+B then h/j/k/l | Select pane |
+| tmux | Ctrl+B then H/J/K/L | Resize pane |
+| tmux | Ctrl+B then f | Project picker in a new window |
+| tmux | Ctrl+B then [ | Copy mode; v selects, y copies to clipboard |
+| tmux | Ctrl+B then r | Reload config |
+| Neovim | Space p f / Space p s | Find files / search text |
+| Neovim | Space p b | Pick buffer |
+| Neovim | Space e | File browser |
+| Neovim | gd / gr / K | Definition / references / documentation |
+| Neovim | Space r n / Space c a | Rename / code action |
+| Neovim | Ctrl+X Ctrl+O | Native LSP completion menu |
+| Neovim | Space f | Format buffer or selection |
+| Neovim | `:Git` | Fugitive Git interface |
+
+## Local preferences and projects
+
+Put optional Bash changes in `~/.config/dotfiles-wsl.local.sh` (outside this
+repository). Only that explicit file is sourced; no directory is auto-sourced.
+
+```bash
+cp config/projects.example ~/.config/dotfiles-wsl-projects
+```
+
+Edit it to list your actual project directories, one per line. Leading `~` is
+expanded, and spaces are supported. Variables, shell code, and paths containing
+newlines are not supported in that file. Without it the picker searches
+`~/projects` and `~/dotfiles-wsl`, to depth two. It includes an 8-character path
+hash in session names so equal project basenames do not share a session.
+It creates a background session and attaches outside tmux; inside tmux it switches.
+
+Clipboard copy uses `clip.exe` with UTF-16 conversion for Unicode. Paste uses
+PowerShell with UTF-8 output. These require WSL Windows interoperability and the
+Windows tools on PATH, as in the source environment. Otherwise an available
+Wayland/X11 clipboard is used. No external clipboard provider is required for
+normal terminal text selection. Clipboard commands operate on your actual system
+clipboard; the validation suite does not modify it.
+
+`open PATH` opens an existing path in Windows Explorer. `open URL` uses `wslview`
+when separately installed; URLs can also be opened directly in your browser.
+
+Neovim dependencies are explicit: APT supplies `rg`, `shfmt`, and `black`, and
+mise supplies the language servers and `prettier`. Add other languages only when
+needed. `:checkhealth` diagnoses providers. `:Lazy sync` updates plugins;
+`config/nvim/lazy-lock.json` is tracked to record resolved plugin revisions.
+First plugin synchronization creates the lockfile if it is absent.
+
+## Restore
+
+Every setup that changes something prints its backup manifest under
+`~/.local/state/dotfiles-wsl/backups/<timestamp>/manifest.json`.
+
+```bash
+./scripts/restore.sh ~/.local/state/dotfiles-wsl/backups/TIMESTAMP/manifest.json --dry-run
+./scripts/restore.sh ~/.local/state/dotfiles-wsl/backups/TIMESTAMP/manifest.json
+```
+
+Restore removes the matching managed symlinks and puts backed-up configs back.
+It removes only the loader block from `.bashrc`, preserving edits made after
+setup. It also removes a Git include added by that setup. It refuses to replace
+managed paths that have since been changed to something else. Restore newer
+manifests before older ones. A full pre-setup `.bashrc` copy is retained in the
+backup directory for manual recovery. Installed packages and mise tools remain.
+Open a fresh shell, and start a fresh tmux server when safe to clear in-memory
+settings. Moving the repo requires rerunning setup; restore the previous links
+first if needed.
+
+## Verify and publish
+
+```bash
+./scripts/check.sh
+# Optional after setup and installing dependencies:
+./scripts/install-plugins.sh
+```
+
+The offline checks cover TOML parsing, LF line endings, non-destructive dry-run,
+setup idempotence, config backups/restoration, retained Bash edits, changed-path
+protection, Neovim base startup, and project picker quoting/attach/switch behavior.
+ShellCheck runs when installed. The checks also cover mise version preservation,
+malformed TOML rejection, and Unicode conversion for the Windows clipboard. Neovim plugin synchronization uses the network;
+it is deliberately separate from offline checks.
+
+```bash
+git add .
+git commit -m "Add Ubuntu WSL dotfiles"
+git remote add origin git@github.com:YOUR_USER/dotfiles-wsl.git
+git push -u origin main
+```
+
+No remote is configured automatically. Keep tokens, SSH keys, and private local
+configuration out of this repository. All tracked text files use LF endings.

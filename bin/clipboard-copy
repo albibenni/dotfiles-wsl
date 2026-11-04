@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+set -euo pipefail
+if command -v clip.exe >/dev/null 2>&1; then
+    # clip.exe expects UTF-16; preserve Unicode copied from Linux applications.
+    iconv -f UTF-8 -t UTF-16LE | clip.exe
+elif [[ -n ${WAYLAND_DISPLAY:-} ]] && command -v wl-copy >/dev/null 2>&1; then
+    exec wl-copy
+elif [[ -n ${DISPLAY:-} ]] && command -v xclip >/dev/null 2>&1; then
+    exec xclip -selection clipboard
+else
+    printf 'No Windows, Wayland, or X11 clipboard available.\n' >&2
+    exit 1
+fi

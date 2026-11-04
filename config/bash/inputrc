@@ -1,0 +1,8 @@
+set completion-ignore-case on
+set show-all-if-ambiguous on
+set mark-symlinked-directories on
+set skip-completed-text on
+set colored-stats on
+set completion-query-items 200
+"\e[A": history-search-backward
+"\e[B": history-search-forward

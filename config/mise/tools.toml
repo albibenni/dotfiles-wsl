@@ -1,0 +1,8 @@
+# Added only when the key is absent from your global mise config.
+[tools]
+node = "lts"
+"npm:typescript" = "latest"
+"npm:typescript-language-server" = "latest"
+"npm:bash-language-server" = "latest"
+"npm:pyright" = "latest"
+"npm:prettier" = "latest"

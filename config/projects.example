@@ -1,0 +1,5 @@
+# Copy to ~/.config/dotfiles-wsl-projects. One absolute path per line.
+# A leading ~ is expanded; variables and shell code are not evaluated.
+~/projects
+~/dotfiles-wsl
+# /mnt/c/Users/YOUR_WINDOWS_USER/Projects

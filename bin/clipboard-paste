@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+set -euo pipefail
+if command -v powershell.exe >/dev/null 2>&1; then
+    powershell.exe -NoProfile -NonInteractive -Command '[Console]::OutputEncoding = [System.Text.UTF8Encoding]::new($false); [Console]::Write((Get-Clipboard -Raw))' | sed 's/\r$//'
+elif [[ -n ${WAYLAND_DISPLAY:-} ]] && command -v wl-paste >/dev/null 2>&1; then
+    exec wl-paste --no-newline
+elif [[ -n ${DISPLAY:-} ]] && command -v xclip >/dev/null 2>&1; then
+    exec xclip -selection clipboard -o
+else
+    printf 'No Windows, Wayland, or X11 clipboard available.\n' >&2
+    exit 1
+fi

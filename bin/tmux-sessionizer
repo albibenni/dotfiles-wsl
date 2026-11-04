@@ -1,0 +1,32 @@
+#!/usr/bin/env bash
+set -euo pipefail
+if (( $# > 1 )); then printf 'Usage: tmux-sessionizer [DIRECTORY]\n' >&2; exit 2; fi
+if (( $# == 1 )); then
+    selected=$1
+else
+    roots=("$HOME/projects" "$HOME/dotfiles-wsl")
+    roots_file="${XDG_CONFIG_HOME:-$HOME/.config}/dotfiles-wsl-projects"
+    if [[ -f $roots_file ]]; then
+        roots=()
+        while IFS= read -r path || [[ -n $path ]]; do
+            [[ -z $path || $path == \#* ]] && continue
+            path="${path/#\~/$HOME}"
+            [[ $path == /* ]] || { printf 'Project root must be absolute: %s\n' "$path" >&2; exit 2; }
+            roots+=("$path")
+        done < "$roots_file"
+    fi
+    selected=$(
+        for path in "${roots[@]}"; do
+            [[ ! -d $path ]] || find "$path" -maxdepth 2 -type d -not -path '*/.git*' -not -path '*/node_modules*'
+        done | sort -u | fzf --prompt='Project > '
+    ) || exit 0
+fi
+[[ -n $selected ]] || exit 0
+[[ -d $selected ]] || { printf 'Not a directory: %s\n' "$selected" >&2; exit 1; }
+selected=$(realpath -- "$selected")
+label=$(basename -- "$selected" | LC_ALL=C sed 's/[^a-zA-Z0-9_-]/_/g')
+hash=$(printf '%s' "$selected" | sha256sum)
+name="${label}_${hash:0:8}"
+if ! tmux has-session -t "=$name" 2>/dev/null; then tmux new-session -ds "$name" -c "$selected"; fi
+if [[ -n ${TMUX:-} ]]; then tmux switch-client -t "=$name";
+else exec tmux attach-session -t "=$name"; fi

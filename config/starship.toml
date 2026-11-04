@@ -1,0 +1,19 @@
+add_newline = true
+format = """
+[┌─](bold cyan)$directory$git_branch$git_status$python$nodejs$golang$cmd_duration
+[└─](bold cyan)$character"""
+[character]
+success_symbol = "[>](bold cyan)"
+error_symbol = "[x](bold red)"
+[directory]
+truncation_length = 3
+[git_branch]
+symbol = "git:"
+[nodejs]
+symbol = "node:"
+[python]
+symbol = "py:"
+[golang]
+symbol = "go:"
+[cmd_duration]
+min_time = 2000
