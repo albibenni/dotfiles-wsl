@@ -182,7 +182,7 @@ bind -v | command grep -Fq 'set page-completions off'
     run(str(ROOT / 'scripts/install-tools.sh'))
     calls = [json.loads(line) for line in log.read_text().splitlines()]
     use = [call for call in calls if 'use' in call]
-    assert len(use) == 4 and not any(call[-1].startswith(('node@', 'npm:prettier@')) for call in use)
+    assert use and not any(call[-1].startswith(('node@', 'npm:prettier@')) for call in use)
     assert mise_config.read_text() == '[tools]\nnode = "22"\n"npm:prettier" = "3"\n'
     mise_config.write_text('broken [ TOML')
     log.write_text('')

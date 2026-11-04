@@ -20,15 +20,26 @@ for key, version in requested.items():
         print(f"{key}@{version}")
 PYTHON
 )
+tools_text=$(python3 - "$repo/config/mise/tools.toml" <<'PYTHON'
+import pathlib, sys, tomllib
+for name in tomllib.loads(pathlib.Path(sys.argv[1]).read_text())["tools"]:
+    print(name)
+PYTHON
+)
+mapfile -t tools <<< "$tools_text"
 specs=()
 if [[ -n $specs_text ]]; then mapfile -t specs <<< "$specs_text"; fi
 if [[ ${1:-} == --dry-run ]]; then
     printf 'export MISE_FETCH_REMOTE_VERSIONS_TIMEOUT=%q MISE_HTTP_TIMEOUT=%q\n' "$MISE_FETCH_REMOTE_VERSIONS_TIMEOUT" "$MISE_HTTP_TIMEOUT"
     for spec in "${specs[@]}"; do printf 'mise -C %q use --global %q\n' "$HOME" "$spec"; done
-    printf 'mise -C %q install node npm:typescript npm:typescript-language-server npm:bash-language-server npm:pyright npm:prettier\nmise reshim\n' "$HOME"
+    printf 'mise -C %q install' "$HOME"
+    printf ' %q' "${tools[@]}"
+    printf '\nmise install npm:typescript@6\nmise reshim\n'
     exit 0
 fi
 # Node comes first so npm backends can use it in noninteractive shells.
 for spec in "${specs[@]}"; do mise -C "$HOME" use --global "$spec"; done
-mise -C "$HOME" install node npm:typescript npm:typescript-language-server npm:bash-language-server npm:pyright npm:prettier
+mise -C "$HOME" install "${tools[@]}"
+# Side-by-side tsserver for the editor; does not alter the global TypeScript request.
+mise -C "$HOME" install npm:typescript@6
 mise reshim

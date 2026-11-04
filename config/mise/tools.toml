@@ -1,8 +1,14 @@
 # Added only when the key is absent from your global mise config.
 [tools]
 node = "lts"
-"npm:typescript" = "latest"
+"npm:typescript" = "6"
 "npm:typescript-language-server" = "latest"
 "npm:bash-language-server" = "latest"
 "npm:pyright" = "latest"
 "npm:prettier" = "latest"
+
+# Editor helpers; Treesitter master supports the 0.25 CLI series.
+"tree-sitter" = "0.25"
+lua-language-server = "latest"
+stylua = "latest"
+lazygit = "latest"

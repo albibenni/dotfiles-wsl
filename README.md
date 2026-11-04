@@ -20,14 +20,17 @@ cd ~/dotfiles-wsl
 The full installer runs these steps, in order:
 
 1. `scripts/install-packages.sh`: installs Ubuntu packages with `sudo apt-get`.
-2. `scripts/install-tools.sh`: uses your existing mise to add missing Node,
-   TypeScript/Python/Bash language servers, and Prettier. Existing tool entries,
-   including `node = "lts"`, win. No mise installer is downloaded.
+2. `scripts/install-tools.sh`: uses your existing mise for missing Node, language
+   servers, formatters, lazygit and the Neovim 0.11-compatible Treesitter CLI.
+   Existing tool entries, including `node = "lts"`, win. A separate TypeScript 6
+   installation provides tsserver without replacing a global TypeScript 7.
+   No mise installer is downloaded.
 3. `scripts/setup.sh`: backs up conflicting configs, creates explicit symlinks,
    and appends one loader block to your existing `.bashrc`.
 4. `scripts/install-tmux-plugins.sh`: installs the four original tmux plugins at
    revisions recorded in `config/tmux/plugins.lock`.
-5. `scripts/install-plugins.sh`: downloads/restores the locked Neovim plugins with lazy.nvim.
+5. `scripts/install-plugins.sh`: restores locked Neovim plugins, builds native
+   fzf, installs syntax parsers, and verifies the UI, mappings and plugin setup.
 
 Open a new Bash shell after installation. Your current shell is not reloaded by
 the installer. Corporate Kerberos/proxy startup code stays in the original
@@ -95,10 +98,13 @@ MISE_FETCH_REMOTE_VERSIONS_TIMEOUT=5m MISE_HTTP_TIMEOUT=2m ./scripts/install-too
   rounded teal/gray tabs, folder/clock/CPU modules, mouse and vi copy mode.
   Kubernetes context is shown when `kubectl` or `oc` is on the tmux server's PATH.
   WSL clipboard helpers, project picker, terminal settings and keybindings remain.
-- Neovim: Tokyo Night, Telescope, Gitsigns, Fugitive, native LSP/completion and
-  Conform formatting. TypeScript/JavaScript, Python, and Bash language servers.
-  No automatic formatting or whitespace edits on save. No AI credentials or
-  integrations, personal Todoist hooks, or desktop theme dependencies.
+- Neovim: original editing options/keymaps, Tokyo Night, Lualine, NvimTree,
+  Telescope/native fzf, Harpoon, nvim-cmp/LuaSnip, Gitsigns/Fugitive/LazyGit,
+  Treesitter/textobjects/autotag, Flash, WhichKey, Trouble, TODO comments,
+  Comment/surround/indent guides, Undotree, Zen mode and Markview. LSP and Conform
+  handle installed language tools. No automatic formatting/whitespace edits on
+  save, AI credentials/integrations, Todoist hooks or desktop theme dependencies.
+  See [the Neovim comparison](docs/nvim-audit.md) for adaptations and optional tools.
 - Windows clipboard helpers with Wayland/X11 fallbacks.
 
 APT packages include the shell tools plus Python, build utilities, SSL
@@ -125,10 +131,14 @@ party repositories.
 | tmux | Ctrl+B then r | Reload config |
 | Neovim | Space p f / Space p s | Find files / search text |
 | Neovim | Space p b | Pick buffer |
-| Neovim | Space e | File browser |
+| Neovim | Space e e / Space e f | File tree / locate current file |
 | Neovim | gd / gr / K | Definition / references / documentation |
 | Neovim | Space r n / Space c a | Rename / code action |
-| Neovim | Ctrl+X Ctrl+O | Native LSP completion menu |
+| Neovim | Ctrl+Space / Ctrl+N / Ctrl+P | Completion menu / next / previous |
+| Neovim | Space a / Ctrl+E | Harpoon add / menu |
+| Neovim | Space nn / Space tt | Undo history / diagnostics |
+| Neovim | Space lg / Space gs | LazyGit / Fugitive |
+| Neovim | Ctrl+F | Telescope tmux project picker |
 | Neovim | Space f | Format buffer or selection |
 | Neovim | `:Git` | Fugitive Git interface |
 
@@ -235,11 +245,23 @@ clipboard; the validation suite does not modify it.
 `open PATH` opens an existing path in Windows Explorer. `open URL` uses `wslview`
 when separately installed; URLs can also be opened directly in your browser.
 
-Neovim dependencies are explicit: APT supplies `rg`, `shfmt`, and `black`, and
-mise supplies the language servers and `prettier`. Add other languages only when
-needed. `:checkhealth` diagnoses providers. `:Lazy sync` updates plugins;
+Neovim dependencies are explicit: APT supplies `rg`, `shfmt`, and `black`;
+existing build-essential compiles the fzf extension and syntax parsers. Mise
+supplies Node, TypeScript/Python/Bash/Lua language servers, Prettier, StyLua,
+lazygit and tree-sitter 0.25. Neovim 0.11 uses Treesitter's frozen master branch
+and matching textobjects API, not main's Neovim 0.12 API. TypeScript 6 is installed
+side by side for tsserver while existing global TypeScript versions are retained.
+Other LSPs/formatters/linters activate only when their executables are available.
+Add runtimes/servers for other languages when needed. `:checkhealth` diagnoses providers. `:Lazy sync` updates plugins;
 `config/nvim/lazy-lock.json` is tracked to record resolved plugin revisions.
-First plugin synchronization creates the lockfile if it is absent.
+First plugin synchronization creates the lockfile if it is absent. Put optional
+user extensions in `~/.config/nvim-local.lua`, outside the tracked config.
+
+For a full editor validation using temporary files (after installing tools):
+
+```bash
+./scripts/check-nvim.sh
+```
 
 ## Restore
 
