@@ -1,0 +1,24 @@
+# WSL adaptation of the original Ghostty config; no Omarchy/Hyprland imports.
+theme = TokyoNight Night
+font-family = CaskaydiaCove Nerd Font
+font-style = SemiBold
+font-size = 14
+font-feature = -liga
+window-inherit-font-size = false
+window-theme = ghostty
+window-padding-x = 14
+window-padding-y = 14
+confirm-close-surface = false
+resize-overlay = never
+gtk-toolbar-style = flat
+cursor-style = block
+cursor-style-blink = false
+command = /bin/bash
+shell-integration = bash
+shell-integration-features = no-cursor,ssh-env
+mouse-scroll-multiplier = 0.95
+keybind = shift+enter=text:\x1b\r
+keybind = ctrl+shift+q=close_surface
+keybind = alt+shift+enter=csi:13;4u
+# Explicit optional user overrides, outside the tracked config directory.
+config-file = ?~/.config/ghostty.local

@@ -208,6 +208,19 @@ The CPU figure measures the WSL VM. tmux-cpu works with the existing `ps` fallba
 Kubernetes CLI/context setup is separate: the plugin is installed but hidden
 until `kubectl` or `oc` is available to tmux. It reads local context/namespace.
 
+## Ghostty on WSL
+
+Ghostty is optional and has its own installer:
+
+```bash
+./scripts/install-ghostty.sh
+```
+
+It reuses your Windows Nerd Font in Linux and links `config/ghostty/config`.
+Launch **Ghostty (Ubuntu-26.04)** from Windows Start and pin it to the taskbar to
+use it as your everyday WSL terminal. The Linux build cannot be selected as the
+Windows default console host. See [Ghostty setup and defaults](docs/ghostty-wsl.md).
+
 ## Appearance
 
 Select **CaskaydiaCove Nerd Font** in the Windows terminal running WSL. The prompt,
