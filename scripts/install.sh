@@ -5,6 +5,7 @@ repo=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)
 "$repo/scripts/install-packages.sh" "$@"
 "$repo/scripts/install-tools.sh" "$@"
 "$repo/scripts/setup.sh" "$@"
+"$repo/scripts/install-tmux-plugins.sh" "$@"
 if [[ ${1:-} != --dry-run ]]; then
     "$repo/scripts/install-plugins.sh"
     printf '\nDone. Open a new Bash shell to load the configuration.\n'

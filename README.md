@@ -25,7 +25,9 @@ The full installer runs these steps, in order:
    including `node = "lts"`, win. No mise installer is downloaded.
 3. `scripts/setup.sh`: backs up conflicting configs, creates explicit symlinks,
    and appends one loader block to your existing `.bashrc`.
-4. `scripts/install-plugins.sh`: downloads/restores the locked Neovim plugins with lazy.nvim.
+4. `scripts/install-tmux-plugins.sh`: installs the four original tmux plugins at
+   revisions recorded in `config/tmux/plugins.lock`.
+5. `scripts/install-plugins.sh`: downloads/restores the locked Neovim plugins with lazy.nvim.
 
 Open a new Bash shell after installation. Your current shell is not reloaded by
 the installer. Corporate Kerberos/proxy startup code stays in the original
@@ -87,10 +89,10 @@ MISE_FETCH_REMOTE_VERSIONS_TIMEOUT=5m MISE_HTTP_TIMEOUT=2m ./scripts/install-too
   terminal; no separate WSL font installation is needed. Ubuntu Starship 1.22
   lacks the original native mise module, so that segment is omitted and its
   language modules display the active runtime versions instead.
-- tmux: mouse, vi copy mode, pane shortcuts, and the original rounded teal/gray
-  Catppuccin tab appearance with folder and clock segments at the top. Implemented
-  directly in the config; no theme plugin or TPM downloads required. The original
-  plugin-based CPU and Kubernetes status segments are not included.
+- tmux: the original TPM, Catppuccin v2.1.3, tmux-cpu, and kube-tmux plugins,
+  rounded teal/gray tabs, folder/clock/CPU modules, mouse and vi copy mode.
+  Kubernetes context is shown when `kubectl` or `oc` is on the tmux server's PATH.
+  WSL clipboard helpers, project picker, terminal settings and keybindings remain.
 - Neovim: Tokyo Night, Telescope, Gitsigns, Fugitive, native LSP/completion and
   Conform formatting. TypeScript/JavaScript, Python, and Bash language servers.
   No automatic formatting or whitespace edits on save. No AI credentials or
@@ -124,6 +126,34 @@ party repositories.
 | Neovim | Ctrl+X Ctrl+O | Native LSP completion menu |
 | Neovim | Space f | Format buffer or selection |
 | Neovim | `:Git` | Fugitive Git interface |
+
+## Tmux plugins
+
+The full installer includes the plugins. To install or restore them separately:
+
+```bash
+./scripts/install-tmux-plugins.sh --dry-run
+./scripts/install-tmux-plugins.sh
+tmux source-file ~/.config/tmux/tmux.conf
+```
+
+Downloads live in `~/.local/share/tmux/plugins` (or `$XDG_DATA_HOME/tmux/plugins`),
+outside the dotfiles repository. The installer uses `config/tmux/plugins.lock` to
+restore known revisions and refuses to overwrite local plugin edits. TPM still
+provides **Ctrl+B then I** to install declared plugins, **Ctrl+B then U** to
+update unpinned plugins, and **Ctrl+B then Alt+u** to clean removed plugins.
+Catppuccin remains pinned to v2.1.3; skip it in TPM's update menu. The other three
+use dedicated tracking branches so TPM updates work. Updates can move away from
+the locked revisions; rerunning the script restores those revisions.
+
+Catppuccin is loaded before composing the status line, then TPM loads the plugins
+and tmux-cpu expands the CPU placeholders. Reloading rebuilds the status line
+without duplicating modules. No tmux session restart is needed.
+
+The CPU figure measures the WSL VM. tmux-cpu works with the existing `ps` fallback;
+`sudo apt-get install sysstat` optionally provides more accurate sampling.
+Kubernetes CLI/context setup is separate: the plugin is installed but hidden
+until `kubectl` or `oc` is available to tmux. It reads local context/namespace.
 
 ## Appearance
 
