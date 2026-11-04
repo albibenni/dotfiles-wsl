@@ -1,9 +1,9 @@
 GlazeWM - Hyprland keybindings
-Windows key = either Win / Super. Win+L locks; Alt+L or Win+Right focuses right.
+Windows key = either Win / Super. Win+L focuses right when Windows locking is disabled; Alt+L and Win+Right also work.
 
 win+h, win+left : focus --direction left
 win+shift+h, win+shift+left : move --direction left
-alt+l, win+right : focus --direction right
+win+l, alt+l, win+right : focus --direction right
 win+shift+l, win+shift+right : move --direction right
 win+k, win+up : focus --direction up
 win+shift+k, win+shift+up : move --direction up

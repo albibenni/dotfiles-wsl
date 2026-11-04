@@ -38,13 +38,17 @@ PowerShell directly (the repository can also be checked out on Windows):
 ## Shortcuts
 
 **Super means either Windows key.** GlazeWM intercepts the listed combinations
-while running. Other Windows shortcuts remain enabled; no `NoWinKeys` policy,
-keyboard-wide remapping, or disabling workstation locking is needed.
-Windows reserves Win+L, so right focus uses **Alt+L or Win+Right**.
+while running. Other Windows shortcuts remain enabled; no `NoWinKeys` policy or
+keyboard-wide remapping is applied by the installer.
+**Win+L focuses right**, alongside Alt+L and Win+Right. This requires Windows
+`DisableLockWorkstation=1`, which you configured separately. That policy disables
+manual workstation locking; the installer does not change it. If locking is
+restored, remove `win+l` and use the alternatives. The configured custom lock
+shortcut also cannot lock while workstation locking is disabled.
 
 | Shortcut | Action |
 |---|---|
-| Win+H / J / K, Alt+L | Focus left / down / up / right |
+| Win+H / J / K / L | Focus left / down / up / right |
 | Win+arrows | Directional focus |
 | Win+Shift+H/J/K/L or arrows | Move window in direction |
 | Win+Ctrl+H/J/K/L | Resize by 40 px |
@@ -71,7 +75,7 @@ Windows reserves Win+L, so right focus uses **Alt+L or Win+Right**.
 Number-pad workspace keys require Num Lock on. Both Win+number and
 Win+Shift+number accept the top row and number pad.
 
-Native Win+L locks, Win+V opens Windows clipboard history, Win+Shift+S screenshots,
+Native Win+V opens Windows clipboard history, Win+Shift+S screenshots,
 and Alt+Tab switches applications. These replace the equivalent Linux menus.
 The original Win+K menu conflicts with Vim-style upward focus: this port uses
 Win+K for focus and Win+F1 for the keybinding list.

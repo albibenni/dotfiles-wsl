@@ -222,7 +222,8 @@ until `kubectl` or `oc` is available to tmux. It reads local context/namespace.
 
 The optional Windows window manager mirrors the Hyprland workspaces, Vim-style
 controls, Ghostty launcher and appearance using GlazeWM. It uses Windows/Super
-shortcuts, with Alt+L or Win+Right for right focus because Win+L is reserved.
+shortcuts, with Win+L for right focus after separately disabling Windows locking.
+Alt+L and Win+Right remain available.
 
 ```bash
 ./scripts/install-glazewm.sh --dry-run --start

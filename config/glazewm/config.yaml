@@ -1,5 +1,5 @@
 # Hyprland/Omarchy port for Windows 11, GlazeWM 3.10.1.
-# Either Windows key is accepted. Win+L stays Windows lock; use Alt+L or Win+Right. No registry remapping.
+# Either Windows key is accepted. Win+L requires Windows locking disabled separately.
 # Hyprland gaps_in=4 on each side becomes an 8px inter-window gap.
 # The installer substitutes {{WSL_DISTRO}} with the selected WSL distro.
 general:
@@ -121,6 +121,7 @@ keybindings:
   commands:
   - move --direction left
 - bindings:
+  - win+l
   - alt+l
   - win+right
   commands:
