@@ -37,7 +37,7 @@ PowerShell directly (the repository can also be checked out on Windows):
 
 ## Shortcuts
 
-**Super means the left Windows key.** GlazeWM intercepts the listed combinations
+**Super means either Windows key.** GlazeWM intercepts the listed combinations
 while running. Other Windows shortcuts remain enabled; no `NoWinKeys` policy,
 keyboard-wide remapping, or disabling workstation locking is needed.
 Windows reserves Win+L, so right focus uses **Alt+L or Win+Right**.
@@ -48,7 +48,7 @@ Windows reserves Win+L, so right focus uses **Alt+L or Win+Right**.
 | Win+arrows | Directional focus |
 | Win+Shift+H/J/K/L or arrows | Move window in direction |
 | Win+Ctrl+H/J/K/L | Resize by 40 px |
-| Win+1…9 / 0 | Workspace 1…9 / 10 |
+| Win+1…9 / 0 (top row or number pad) | Workspace 1…9 / 10 |
 | Win+Shift+1…9 / 0 | Move to workspace without following |
 | Win+Tab / Win+Shift+Tab | Next / previous active workspace |
 | Win+Ctrl+Tab | Recent workspace |
@@ -67,6 +67,9 @@ Windows reserves Win+L, so right focus uses **Alt+L or Win+Right**.
 | Win+Ctrl+Shift+R | Reload config |
 | Win+Ctrl+Shift+P | Pause/resume management and other bindings |
 | Win+Ctrl+Shift+Escape | Exit GlazeWM and restore normal Windows handling |
+
+Number-pad workspace keys require Num Lock on. Both Win+number and
+Win+Shift+number accept the top row and number pad.
 
 Native Win+L locks, Win+V opens Windows clipboard history, Win+Shift+S screenshots,
 and Alt+Tab switches applications. These replace the equivalent Linux menus.

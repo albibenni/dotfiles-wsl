@@ -1,61 +1,63 @@
 GlazeWM - Hyprland keybindings
-Windows key = left Win / Super. Win+L locks; Alt+L or Win+Right focuses right.
+Windows key = either Win / Super. Win+L locks; Alt+L or Win+Right focuses right.
 
-lwin+h, lwin+left : focus --direction left
-lwin+shift+h, lwin+shift+left : move --direction left
-alt+l, lwin+right : focus --direction right
-lwin+shift+l, lwin+shift+right : move --direction right
-lwin+k, lwin+up : focus --direction up
-lwin+shift+k, lwin+shift+up : move --direction up
-lwin+j, lwin+down : focus --direction down
-lwin+shift+j, lwin+shift+down : move --direction down
-lwin+control+h : resize --width -40px
-lwin+control+l : resize --width +40px
-lwin+control+k : resize --height -40px
-lwin+control+j : resize --height +40px
-lwin+1 : focus --workspace 1
-lwin+shift+1 : move --workspace 1
-lwin+2 : focus --workspace 2
-lwin+shift+2 : move --workspace 2
-lwin+3 : focus --workspace 3
-lwin+shift+3 : move --workspace 3
-lwin+4 : focus --workspace 4
-lwin+shift+4 : move --workspace 4
-lwin+5 : focus --workspace 5
-lwin+shift+5 : move --workspace 5
-lwin+6 : focus --workspace 6
-lwin+shift+6 : move --workspace 6
-lwin+7 : focus --workspace 7
-lwin+shift+7 : move --workspace 7
-lwin+8 : focus --workspace 8
-lwin+shift+8 : move --workspace 8
-lwin+9 : focus --workspace 9
-lwin+shift+9 : move --workspace 9
-lwin+0 : focus --workspace 10
-lwin+shift+0 : move --workspace 10
-lwin+w : close
-lwin+t, lwin+o : toggle-floating --centered=true
-lwin+f : toggle-fullscreen
-lwin+alt+f : toggle-fullscreen --maximized=true
-lwin+control+f : toggle-fullscreen --maximized=true
-lwin+alt+j : toggle-tiling-direction
-lwin+tab : focus --next-active-workspace
-lwin+shift+tab : focus --prev-active-workspace
-lwin+control+tab : focus --recent-workspace
-lwin+alt+space : wm-cycle-focus
-lwin+shift+t : shell-exec wslg.exe -d {{WSL_DISTRO}} --cd ~ -- /usr/bin/ghostty --gtk-single-instance=true
-lwin+shift+f : shell-exec explorer.exe
-lwin+shift+b : shell-exec explorer.exe https://www.google.com/
-lwin+shift+c : shell-exec explorer.exe https://calendar.google.com/
-lwin+shift+y : shell-exec explorer.exe https://youtube.com/
-lwin+control+g : shell-exec explorer.exe https://gemini.google.com/app
-lwin+control+c : shell-exec explorer.exe https://claude.ai/
-lwin+control+shift+k : shell-exec rundll32.exe user32.dll,LockWorkStation
-lwin+f1 : shell-exec notepad.exe %USERPROFILE%/.glzr/glazewm/KEYBINDINGS.txt
-lwin+control+shift+r : wm-reload-config
-lwin+control+shift+p : wm-toggle-pause
-lwin+control+shift+escape : wm-exit
+win+h, win+left : focus --direction left
+win+shift+h, win+shift+left : move --direction left
+alt+l, win+right : focus --direction right
+win+shift+l, win+shift+right : move --direction right
+win+k, win+up : focus --direction up
+win+shift+k, win+shift+up : move --direction up
+win+j, win+down : focus --direction down
+win+shift+j, win+shift+down : move --direction down
+win+control+h : resize --width -40px
+win+control+l : resize --width +40px
+win+control+k : resize --height -40px
+win+control+j : resize --height +40px
+win+1 : focus --workspace 1
+win+shift+1 : move --workspace 1
+win+2 : focus --workspace 2
+win+shift+2 : move --workspace 2
+win+3 : focus --workspace 3
+win+shift+3 : move --workspace 3
+win+4 : focus --workspace 4
+win+shift+4 : move --workspace 4
+win+5 : focus --workspace 5
+win+shift+5 : move --workspace 5
+win+6 : focus --workspace 6
+win+shift+6 : move --workspace 6
+win+7 : focus --workspace 7
+win+shift+7 : move --workspace 7
+win+8 : focus --workspace 8
+win+shift+8 : move --workspace 8
+win+9 : focus --workspace 9
+win+shift+9 : move --workspace 9
+win+0 : focus --workspace 10
+win+shift+0 : move --workspace 10
+win+w : close
+win+t, win+o : toggle-floating --centered=true
+win+f : toggle-fullscreen
+win+alt+f : toggle-fullscreen --maximized=true
+win+control+f : toggle-fullscreen --maximized=true
+win+alt+j : toggle-tiling-direction
+win+tab : focus --next-active-workspace
+win+shift+tab : focus --prev-active-workspace
+win+control+tab : focus --recent-workspace
+win+alt+space : wm-cycle-focus
+win+shift+t : shell-exec wslg.exe -d {{WSL_DISTRO}} --cd ~ -- /usr/bin/ghostty --gtk-single-instance=true
+win+shift+f : shell-exec explorer.exe
+win+shift+b : shell-exec explorer.exe https://www.google.com/
+win+shift+c : shell-exec explorer.exe https://calendar.google.com/
+win+shift+y : shell-exec explorer.exe https://youtube.com/
+win+control+g : shell-exec explorer.exe https://gemini.google.com/app
+win+control+c : shell-exec explorer.exe https://claude.ai/
+win+control+shift+k : shell-exec rundll32.exe user32.dll,LockWorkStation
+win+f1 : shell-exec notepad.exe %USERPROFILE%/.glzr/glazewm/KEYBINDINGS.txt
+win+control+shift+r : wm-reload-config
+win+control+shift+p : wm-toggle-pause
+win+control+shift+escape : wm-exit
 
 Native Windows shortcuts: Win+V clipboard, Win+Shift+S screenshot, Alt+Tab app switcher.
 Pause: Win+Ctrl+Shift+P. Exit: Win+Ctrl+Shift+Escape.
 Moving to workspace (Win+Shift+number) does not follow the moved window.
+
+Workspace shortcuts accept top-row numbers and the number pad (Num Lock on).

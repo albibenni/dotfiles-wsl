@@ -1,5 +1,5 @@
 # Hyprland/Omarchy port for Windows 11, GlazeWM 3.10.1.
-# Win+L stays Windows lock; use Alt+L or Win+Right. No registry remapping.
+# Either Windows key is accepted. Win+L stays Windows lock; use Alt+L or Win+Right. No registry remapping.
 # Hyprland gaps_in=4 on each side becomes an 8px inter-window gap.
 # The installer substitutes {{WSL_DISTRO}} with the selected WSL distro.
 general:
@@ -111,227 +111,247 @@ window_rules:
 binding_modes: []
 keybindings:
 - bindings:
-  - lwin+h
-  - lwin+left
+  - win+h
+  - win+left
   commands:
   - focus --direction left
 - bindings:
-  - lwin+shift+h
-  - lwin+shift+left
+  - win+shift+h
+  - win+shift+left
   commands:
   - move --direction left
 - bindings:
   - alt+l
-  - lwin+right
+  - win+right
   commands:
   - focus --direction right
 - bindings:
-  - lwin+shift+l
-  - lwin+shift+right
+  - win+shift+l
+  - win+shift+right
   commands:
   - move --direction right
 - bindings:
-  - lwin+k
-  - lwin+up
+  - win+k
+  - win+up
   commands:
   - focus --direction up
 - bindings:
-  - lwin+shift+k
-  - lwin+shift+up
+  - win+shift+k
+  - win+shift+up
   commands:
   - move --direction up
 - bindings:
-  - lwin+j
-  - lwin+down
+  - win+j
+  - win+down
   commands:
   - focus --direction down
 - bindings:
-  - lwin+shift+j
-  - lwin+shift+down
+  - win+shift+j
+  - win+shift+down
   commands:
   - move --direction down
 - bindings:
-  - lwin+control+h
+  - win+control+h
   commands:
   - resize --width -40px
 - bindings:
-  - lwin+control+l
+  - win+control+l
   commands:
   - resize --width +40px
 - bindings:
-  - lwin+control+k
+  - win+control+k
   commands:
   - resize --height -40px
 - bindings:
-  - lwin+control+j
+  - win+control+j
   commands:
   - resize --height +40px
 - bindings:
-  - lwin+1
+  - win+1
+  - win+numpad1
   commands:
   - focus --workspace 1
 - bindings:
-  - lwin+shift+1
+  - win+shift+1
+  - win+shift+numpad1
   commands:
   - move --workspace 1
 - bindings:
-  - lwin+2
+  - win+2
+  - win+numpad2
   commands:
   - focus --workspace 2
 - bindings:
-  - lwin+shift+2
+  - win+shift+2
+  - win+shift+numpad2
   commands:
   - move --workspace 2
 - bindings:
-  - lwin+3
+  - win+3
+  - win+numpad3
   commands:
   - focus --workspace 3
 - bindings:
-  - lwin+shift+3
+  - win+shift+3
+  - win+shift+numpad3
   commands:
   - move --workspace 3
 - bindings:
-  - lwin+4
+  - win+4
+  - win+numpad4
   commands:
   - focus --workspace 4
 - bindings:
-  - lwin+shift+4
+  - win+shift+4
+  - win+shift+numpad4
   commands:
   - move --workspace 4
 - bindings:
-  - lwin+5
+  - win+5
+  - win+numpad5
   commands:
   - focus --workspace 5
 - bindings:
-  - lwin+shift+5
+  - win+shift+5
+  - win+shift+numpad5
   commands:
   - move --workspace 5
 - bindings:
-  - lwin+6
+  - win+6
+  - win+numpad6
   commands:
   - focus --workspace 6
 - bindings:
-  - lwin+shift+6
+  - win+shift+6
+  - win+shift+numpad6
   commands:
   - move --workspace 6
 - bindings:
-  - lwin+7
+  - win+7
+  - win+numpad7
   commands:
   - focus --workspace 7
 - bindings:
-  - lwin+shift+7
+  - win+shift+7
+  - win+shift+numpad7
   commands:
   - move --workspace 7
 - bindings:
-  - lwin+8
+  - win+8
+  - win+numpad8
   commands:
   - focus --workspace 8
 - bindings:
-  - lwin+shift+8
+  - win+shift+8
+  - win+shift+numpad8
   commands:
   - move --workspace 8
 - bindings:
-  - lwin+9
+  - win+9
+  - win+numpad9
   commands:
   - focus --workspace 9
 - bindings:
-  - lwin+shift+9
+  - win+shift+9
+  - win+shift+numpad9
   commands:
   - move --workspace 9
 - bindings:
-  - lwin+0
+  - win+0
+  - win+numpad0
   commands:
   - focus --workspace 10
 - bindings:
-  - lwin+shift+0
+  - win+shift+0
+  - win+shift+numpad0
   commands:
   - move --workspace 10
 - bindings:
-  - lwin+w
+  - win+w
   commands:
   - close
 - bindings:
-  - lwin+t
-  - lwin+o
+  - win+t
+  - win+o
   commands:
   - toggle-floating --centered=true
 - bindings:
-  - lwin+f
+  - win+f
   commands:
   - toggle-fullscreen
 - bindings:
-  - lwin+alt+f
+  - win+alt+f
   commands:
   - toggle-fullscreen --maximized=true
 - bindings:
-  - lwin+control+f
+  - win+control+f
   commands:
   - toggle-fullscreen --maximized=true
 - bindings:
-  - lwin+alt+j
+  - win+alt+j
   commands:
   - toggle-tiling-direction
 - bindings:
-  - lwin+tab
+  - win+tab
   commands:
   - focus --next-active-workspace
 - bindings:
-  - lwin+shift+tab
+  - win+shift+tab
   commands:
   - focus --prev-active-workspace
 - bindings:
-  - lwin+control+tab
+  - win+control+tab
   commands:
   - focus --recent-workspace
 - bindings:
-  - lwin+alt+space
+  - win+alt+space
   commands:
   - wm-cycle-focus
 - bindings:
-  - lwin+shift+t
+  - win+shift+t
   commands:
   - shell-exec wslg.exe -d {{WSL_DISTRO}} --cd ~ -- /usr/bin/ghostty --gtk-single-instance=true
 - bindings:
-  - lwin+shift+f
+  - win+shift+f
   commands:
   - shell-exec explorer.exe
 - bindings:
-  - lwin+shift+b
+  - win+shift+b
   commands:
   - shell-exec explorer.exe https://www.google.com/
 - bindings:
-  - lwin+shift+c
+  - win+shift+c
   commands:
   - shell-exec explorer.exe https://calendar.google.com/
 - bindings:
-  - lwin+shift+y
+  - win+shift+y
   commands:
   - shell-exec explorer.exe https://youtube.com/
 - bindings:
-  - lwin+control+g
+  - win+control+g
   commands:
   - shell-exec explorer.exe https://gemini.google.com/app
 - bindings:
-  - lwin+control+c
+  - win+control+c
   commands:
   - shell-exec explorer.exe https://claude.ai/
 - bindings:
-  - lwin+control+shift+k
+  - win+control+shift+k
   commands:
   - shell-exec rundll32.exe user32.dll,LockWorkStation
 - bindings:
-  - lwin+f1
+  - win+f1
   commands:
   - shell-exec notepad.exe %USERPROFILE%/.glzr/glazewm/KEYBINDINGS.txt
 - bindings:
-  - lwin+control+shift+r
+  - win+control+shift+r
   commands:
   - wm-reload-config
 - bindings:
-  - lwin+control+shift+p
+  - win+control+shift+p
   commands:
   - wm-toggle-pause
 - bindings:
-  - lwin+control+shift+escape
+  - win+control+shift+escape
   commands:
   - wm-exit
