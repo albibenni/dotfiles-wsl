@@ -11,9 +11,9 @@ alias d=docker
 if command -v batcat >/dev/null 2>&1 && ! command -v bat >/dev/null 2>&1; then alias bat=batcat; fi
 if command -v fdfind >/dev/null 2>&1 && ! command -v fd >/dev/null 2>&1; then alias fd=fdfind; fi
 if command -v eza >/dev/null 2>&1; then
-    alias ls='eza --group-directories-first'
-    alias ll='eza -lah --group-directories-first'
-    alias lt='eza --tree --level=2'
+    alias ls='eza -lh --group-directories-first --icons=auto'
+    alias ll='eza -lah --group-directories-first --icons=auto'
+    alias lt='eza --tree --level=2 --icons=auto --git'
 fi
 # zoxide supplies `z`; normal `cd` keeps standard Bash behavior.
 n() { if (( $# )); then nvim "$@"; else nvim .; fi; }

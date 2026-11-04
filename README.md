@@ -80,11 +80,17 @@ MISE_FETCH_REMOTE_VERSIONS_TIMEOUT=5m MISE_HTTP_TIMEOUT=2m ./scripts/install-too
   Git shortcuts, `n` for Neovim, `cdf` for this repo, `ff` for file previews.
 - fzf: Ctrl+R history, Ctrl+T files, Alt+C directories. Standard Tab completion.
 - zoxide: `z` for directory jumping; `cd` retains Bash semantics.
-- eza and bat, handling Ubuntu's `batcat` and `fdfind` executable names.
-- Starship: compact two-line prompt with Git/runtime information; no special font
-  required. Configure fonts in the terminal application on Windows if desired.
-- tmux: mouse, vi copy mode, pane shortcuts, a Catppuccin-inspired status bar
-  implemented directly in the config. No theme plugin or TPM downloads required.
+- eza with Nerd Font file icons and bat, handling Ubuntu's `batcat` and `fdfind` executable names.
+- Starship: the original cyan two-line prompt with Nerd Font Git/language icons,
+  detailed Git state, language versions, Docker/Kubernetes context when relevant,
+  command duration, and clock. Uses CaskaydiaCove Nerd Font selected in the Windows
+  terminal; no separate WSL font installation is needed. Ubuntu Starship 1.22
+  lacks the original native mise module, so that segment is omitted and its
+  language modules display the active runtime versions instead.
+- tmux: mouse, vi copy mode, pane shortcuts, and the original rounded teal/gray
+  Catppuccin tab appearance with folder and clock segments at the top. Implemented
+  directly in the config; no theme plugin or TPM downloads required. The original
+  plugin-based CPU and Kubernetes status segments are not included.
 - Neovim: Tokyo Night, Telescope, Gitsigns, Fugitive, native LSP/completion and
   Conform formatting. TypeScript/JavaScript, Python, and Bash language servers.
   No automatic formatting or whitespace edits on save. No AI credentials or
@@ -118,6 +124,17 @@ party repositories.
 | Neovim | Ctrl+X Ctrl+O | Native LSP completion menu |
 | Neovim | Space f | Format buffer or selection |
 | Neovim | `:Git` | Fugitive Git interface |
+
+## Appearance
+
+Select **CaskaydiaCove Nerd Font** in the Windows terminal running WSL. The prompt,
+tmux separators, and eza file icons use it. A new Bash shell loads the updated
+aliases; Starship reads its configuration on each prompt.
+
+```bash
+# Reload the appearance in an existing tmux server:
+tmux source-file ~/.config/tmux/tmux.conf
+```
 
 ## Local preferences and projects
 
