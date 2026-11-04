@@ -84,7 +84,12 @@ with tempfile.TemporaryDirectory(prefix='dotfiles-wsl-test-') as temp:
     bash_test.write_text(r"""
 set -e
 export EDITOR=custom-editor MANPAGER=less
+# Reproduce a shell/pane that inherited the old erroneous runtime exports.
+export VIM=nvim VIMRUNTIME=nvim
 source "$1"
+[[ -z ${VIM+x} && -z ${VIMRUNTIME+x} ]]
+# Launch Neovim from the configured shell, not a separate sanitized subprocess.
+DOTFILES_WSL_OFFLINE=1 nvim --headless -i NONE -u "$DOTFILES_WSL/config/nvim/init.lua" '+lua local ok, err = pcall(function() assert(vim.v.errmsg == "", vim.v.errmsg); assert(require("vim.diagnostic")); assert(vim.fn.filereadable(vim.env.VIMRUNTIME .. "/syntax/syntax.vim") == 1) end); if not ok then print(err); vim.cmd("cquit 1") end' +qa
 [[ $EDITOR == custom-editor && $MANPAGER == less ]]
 [[ $DOTFILES == "$DOTFILES_WSL" && $- != *h* ]]
 first_path=$PATH
@@ -135,6 +140,8 @@ bind -v | command grep -Fq 'set page-completions off'
     run('bash', '--noprofile', '--norc', '-ic', 'source "$1"; [[ $EDITOR == local-editor ]]; [[ $(alias cd) == "alias cd=\'builtin cd\'" ]]', 'test', str(ROOT / 'config/bash/init.sh'))
     overrides.unlink()
     env['PATH'] = old_path
+    # Respect intentional custom runtime directories rather than clearing all overrides.
+    run('bash', '--noprofile', '--norc', '-c', 'export VIM=/custom/vim VIMRUNTIME=/custom/vim/runtime DOTFILES_WSL="$1"; source "$1/config/bash/env.sh"; [[ $VIM == /custom/vim && $VIMRUNTIME == /custom/vim/runtime ]]', 'test', str(ROOT))
     # Load the base Neovim config without downloading any plugins or touching real HOME.
     env['DOTFILES_WSL_OFFLINE'] = '1'
     run('nvim', '--headless', '-u', str(ROOT / 'config/nvim/init.lua'), '+qa')

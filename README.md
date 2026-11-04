@@ -283,6 +283,22 @@ Open a fresh shell, and start a fresh tmux server when safe to clear in-memory
 settings. Moving the repo requires rerunning setup; restore the previous links
 first if needed.
 
+## Neovim runtime errors after updating an existing shell
+
+If an older shell reports `module 'vim.diagnostic' not found` or cannot open
+`nvim/syntax/syntax.vim`, reload the corrected Bash layer:
+
+```bash
+source ~/dotfiles-wsl/config/bash/init.sh
+nvim
+```
+
+The earlier port exported `VIM=nvim`, but `VIM`/`VIMRUNTIME` name runtime
+**directories**, not the editor command. The fixed layer removes only those known
+invalid values; custom runtime-directory overrides are preserved. Use `EDITOR`
+or `GIT_EDITOR` to select an editor. Opening a new Bash shell also loads the fix.
+The regression checks launch Neovim from the actual configured Bash layer.
+
 ## Verify and publish
 
 ```bash

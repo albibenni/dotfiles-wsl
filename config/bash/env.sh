@@ -1,6 +1,10 @@
 # Sourced after XDG_CONFIG_HOME and DOTFILES_WSL have been established.
 export DOTFILES="$DOTFILES_WSL"
-export VIM=nvim
+# VIM and VIMRUNTIME are runtime directories, not editor command names.
+# Clear only the bad values exported by the earlier port, including values
+# inherited from a terminal opened inside that broken Neovim environment.
+if [[ ${VIM:-} == nvim ]]; then unset VIM; fi
+if [[ ${VIMRUNTIME:-} == nvim || ${VIMRUNTIME:-} == nvim/runtime ]]; then unset VIMRUNTIME; fi
 export EDITOR="${EDITOR:-nvim}"
 export VISUAL="${VISUAL:-$EDITOR}"
 export GIT_EDITOR="${GIT_EDITOR:-$EDITOR}"
