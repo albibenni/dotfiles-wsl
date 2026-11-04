@@ -211,8 +211,32 @@ until `kubectl` or `oc` is available to tmux. It reads local context/namespace.
 ## Appearance
 
 Select **CaskaydiaCove Nerd Font** in the Windows terminal running WSL. The prompt,
-tmux separators, and eza file icons use it. A new Bash shell loads the updated
-aliases; Starship reads its configuration on each prompt.
+tmux separators, Neovim icons, and eza file icons use it. A new Bash shell loads
+the updated aliases; Starship reads its configuration on each prompt.
+
+The original terminal configs use JetBrainsMono Nerd Font (Ghostty also lists
+CaskaydiaCove as a fallback). Neovim uses `nvim-web-devicons` and `lspkind`;
+there is no separate desktop icon theme involved in terminal glyph rendering.
+The larger Windows preset is in `windows-terminal/ubuntu-font.json`: the installed
+CaskaydiaCove Nerd Font at 14 pt, semibold. Use the `Nerd Font`/`NF` family, rather
+than `Nerd Font Mono`/`NFM`, for the larger glyph variants.
+
+Installing a font in Windows does not select it for Windows Terminal. To apply the
+preset to just the `Ubuntu-26.04` profile, preserving the other profiles/defaults:
+
+```bash
+python3 scripts/configure-windows-terminal.py \
+  --settings '/mnt/c/Users/YOUR_WINDOWS_USER/AppData/Local/Packages/Microsoft.WindowsTerminal_8wekyb3d8bbwe/LocalState/settings.json' \
+  --dry-run
+# Repeat without --dry-run to apply; optionally use --size 13 or --size 15.
+```
+
+The script keeps a backup beside settings.json and expects plain JSON. For a
+commented JSONC file, use Windows Terminal Settings → Ubuntu-26.04 → Appearance
+instead. Open a fresh Ubuntu-26.04 tab afterward. Font size scales both text and
+icons; individual icon sizes are not controlled by Neovim's icon provider.
+The supported profile fields are documented in
+[Windows Terminal font settings](https://learn.microsoft.com/en-us/windows/terminal/customize-settings/profile-appearance#font).
 
 ```bash
 # Reload the appearance in an existing tmux server:
