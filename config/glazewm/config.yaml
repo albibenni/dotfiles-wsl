@@ -25,7 +25,7 @@ window_effects:
   focused_window:
     border:
       enabled: true
-      color: '#7aa2f7'
+      color: "#7aa2f7"
     hide_title_bar:
       enabled: false
     corner_style:
@@ -33,11 +33,11 @@ window_effects:
       style: small_rounded
     transparency:
       enabled: true
-      opacity: 95%
+      opacity: 100%
   other_windows:
     border:
       enabled: true
-      color: '#414868'
+      color: "#414868"
     hide_title_bar:
       enabled: false
     corner_style:
@@ -45,7 +45,7 @@ window_effects:
       style: small_rounded
     transparency:
       enabled: true
-      opacity: 85%
+      opacity: 99%
 window_behavior:
   initial_state: tiling
   state_defaults:
@@ -56,303 +56,303 @@ window_behavior:
       maximized: false
       shown_on_top: false
 workspaces:
-- name: '1'
-  bind_to_monitor: 0
-  keep_alive: true
-- name: '2'
-  bind_to_monitor: 0
-- name: '3'
-  bind_to_monitor: 0
-- name: '4'
-  bind_to_monitor: 0
-- name: '5'
-  bind_to_monitor: 0
-- name: '6'
-  bind_to_monitor: 0
-- name: '7'
-  bind_to_monitor: 0
-- name: '8'
-  bind_to_monitor: 0
-- name: '9'
-  bind_to_monitor: 0
-- name: '10'
-  bind_to_monitor: 1
-  keep_alive: true
+  - name: "1"
+    bind_to_monitor: 0
+    keep_alive: true
+  - name: "2"
+    bind_to_monitor: 0
+  - name: "3"
+    bind_to_monitor: 0
+  - name: "4"
+    bind_to_monitor: 0
+  - name: "5"
+    bind_to_monitor: 0
+  - name: "6"
+    bind_to_monitor: 0
+  - name: "7"
+    bind_to_monitor: 0
+  - name: "8"
+    bind_to_monitor: 0
+  - name: "9"
+    bind_to_monitor: 0
+  - name: "10"
+    bind_to_monitor: 1
+    keep_alive: true
 window_rules:
-- commands:
-  - ignore
-  match:
-  - window_process:
-      equals: zebar
-  - window_process:
-      equals: PowerToys
-    window_class:
-      regex: HwndWrapper\[PowerToys\.PowerAccent.*?\]
-  - window_title:
-      equals: Command Palette
-    window_class:
-      equals: WinUIDesktopWin32WindowClass
-- commands:
-  - set-floating --shown-on-top=true --width 600px --height 338px
-  match:
-  - window_title:
-      regex: (?i)picture.?in.?picture
-    window_class:
-      regex: Chrome_WidgetWin_1|MozillaDialogClass
-- commands:
-  - set-floating --centered=true
-  match:
-  - window_class:
-      equals: '#32770'
-  - window_process:
-      regex: (?i)^(CalculatorApp|Calculator|Taskmgr|ApplicationFrameHost)$
-    window_title:
-      regex: (?i)calculator|task manager
+  - commands:
+      - ignore
+    match:
+      - window_process:
+          equals: zebar
+      - window_process:
+          equals: PowerToys
+        window_class:
+          regex: HwndWrapper\[PowerToys\.PowerAccent.*?\]
+      - window_title:
+          equals: Command Palette
+        window_class:
+          equals: WinUIDesktopWin32WindowClass
+  - commands:
+      - set-floating --shown-on-top=true --width 600px --height 338px
+    match:
+      - window_title:
+          regex: (?i)picture.?in.?picture
+        window_class:
+          regex: Chrome_WidgetWin_1|MozillaDialogClass
+  - commands:
+      - set-floating --centered=true
+    match:
+      - window_class:
+          equals: "#32770"
+      - window_process:
+          regex: (?i)^(CalculatorApp|Calculator|Taskmgr|ApplicationFrameHost)$
+        window_title:
+          regex: (?i)calculator|task manager
 binding_modes: []
 keybindings:
-- bindings:
-  - win+h
-  - win+left
-  commands:
-  - focus --direction left
-- bindings:
-  - win+shift+h
-  - win+shift+left
-  commands:
-  - move --direction left
-- bindings:
-  - win+l
-  - alt+l
-  - win+right
-  commands:
-  - focus --direction right
-- bindings:
-  - win+shift+l
-  - win+shift+right
-  commands:
-  - move --direction right
-- bindings:
-  - win+k
-  - win+up
-  commands:
-  - focus --direction up
-- bindings:
-  - win+shift+k
-  - win+shift+up
-  commands:
-  - move --direction up
-- bindings:
-  - win+j
-  - win+down
-  commands:
-  - focus --direction down
-- bindings:
-  - win+shift+j
-  - win+shift+down
-  commands:
-  - move --direction down
-- bindings:
-  - win+control+h
-  commands:
-  - resize --width -40px
-- bindings:
-  - win+control+l
-  commands:
-  - resize --width +40px
-- bindings:
-  - win+control+k
-  commands:
-  - resize --height -40px
-- bindings:
-  - win+control+j
-  commands:
-  - resize --height +40px
-- bindings:
-  - win+1
-  - win+numpad1
-  commands:
-  - focus --workspace 1
-- bindings:
-  - win+shift+1
-  - win+shift+numpad1
-  commands:
-  - move --workspace 1
-- bindings:
-  - win+2
-  - win+numpad2
-  commands:
-  - focus --workspace 2
-- bindings:
-  - win+shift+2
-  - win+shift+numpad2
-  commands:
-  - move --workspace 2
-- bindings:
-  - win+3
-  - win+numpad3
-  commands:
-  - focus --workspace 3
-- bindings:
-  - win+shift+3
-  - win+shift+numpad3
-  commands:
-  - move --workspace 3
-- bindings:
-  - win+4
-  - win+numpad4
-  commands:
-  - focus --workspace 4
-- bindings:
-  - win+shift+4
-  - win+shift+numpad4
-  commands:
-  - move --workspace 4
-- bindings:
-  - win+5
-  - win+numpad5
-  commands:
-  - focus --workspace 5
-- bindings:
-  - win+shift+5
-  - win+shift+numpad5
-  commands:
-  - move --workspace 5
-- bindings:
-  - win+6
-  - win+numpad6
-  commands:
-  - focus --workspace 6
-- bindings:
-  - win+shift+6
-  - win+shift+numpad6
-  commands:
-  - move --workspace 6
-- bindings:
-  - win+7
-  - win+numpad7
-  commands:
-  - focus --workspace 7
-- bindings:
-  - win+shift+7
-  - win+shift+numpad7
-  commands:
-  - move --workspace 7
-- bindings:
-  - win+8
-  - win+numpad8
-  commands:
-  - focus --workspace 8
-- bindings:
-  - win+shift+8
-  - win+shift+numpad8
-  commands:
-  - move --workspace 8
-- bindings:
-  - win+9
-  - win+numpad9
-  commands:
-  - focus --workspace 9
-- bindings:
-  - win+shift+9
-  - win+shift+numpad9
-  commands:
-  - move --workspace 9
-- bindings:
-  - win+0
-  - win+numpad0
-  commands:
-  - focus --workspace 10
-- bindings:
-  - win+shift+0
-  - win+shift+numpad0
-  commands:
-  - move --workspace 10
-- bindings:
-  - win+w
-  commands:
-  - close
-- bindings:
-  - win+t
-  - win+o
-  commands:
-  - toggle-floating --centered=true
-- bindings:
-  - win+f
-  commands:
-  - toggle-fullscreen
-- bindings:
-  - win+alt+f
-  commands:
-  - toggle-fullscreen --maximized=true
-- bindings:
-  - win+control+f
-  commands:
-  - toggle-fullscreen --maximized=true
-- bindings:
-  - win+alt+j
-  commands:
-  - toggle-tiling-direction
-- bindings:
-  - win+tab
-  commands:
-  - focus --next-active-workspace
-- bindings:
-  - win+shift+tab
-  commands:
-  - focus --prev-active-workspace
-- bindings:
-  - win+control+tab
-  commands:
-  - focus --recent-workspace
-- bindings:
-  - win+alt+space
-  commands:
-  - wm-cycle-focus
-- bindings:
-  - win+shift+t
-  commands:
-  - shell-exec wslg.exe -d {{WSL_DISTRO}} --cd ~ -- /usr/bin/ghostty --gtk-single-instance=true
-- bindings:
-  - win+shift+f
-  commands:
-  - shell-exec explorer.exe
-- bindings:
-  - win+shift+b
-  commands:
-  - shell-exec explorer.exe https://www.google.com/
-- bindings:
-  - win+shift+c
-  commands:
-  - shell-exec explorer.exe https://calendar.google.com/
-- bindings:
-  - win+shift+y
-  commands:
-  - shell-exec explorer.exe https://youtube.com/
-- bindings:
-  - win+control+g
-  commands:
-  - shell-exec explorer.exe https://gemini.google.com/app
-- bindings:
-  - win+control+c
-  commands:
-  - shell-exec explorer.exe https://claude.ai/
-- bindings:
-  - win+control+shift+k
-  commands:
-  - shell-exec rundll32.exe user32.dll,LockWorkStation
-- bindings:
-  - win+f1
-  commands:
-  - shell-exec notepad.exe %USERPROFILE%/.glzr/glazewm/KEYBINDINGS.txt
-- bindings:
-  - win+control+shift+r
-  commands:
-  - wm-reload-config
-- bindings:
-  - win+control+shift+p
-  commands:
-  - wm-toggle-pause
-- bindings:
-  - win+control+shift+escape
-  commands:
-  - wm-exit
+  - bindings:
+      - win+h
+      - win+left
+    commands:
+      - focus --direction left
+  - bindings:
+      - win+shift+h
+      - win+shift+left
+    commands:
+      - move --direction left
+  - bindings:
+      - win+l
+      - alt+l
+      - win+right
+    commands:
+      - focus --direction right
+  - bindings:
+      - win+shift+l
+      - win+shift+right
+    commands:
+      - move --direction right
+  - bindings:
+      - win+k
+      - win+up
+    commands:
+      - focus --direction up
+  - bindings:
+      - win+shift+k
+      - win+shift+up
+    commands:
+      - move --direction up
+  - bindings:
+      - win+j
+      - win+down
+    commands:
+      - focus --direction down
+  - bindings:
+      - win+shift+j
+      - win+shift+down
+    commands:
+      - move --direction down
+  - bindings:
+      - win+control+h
+    commands:
+      - resize --width -40px
+  - bindings:
+      - win+control+l
+    commands:
+      - resize --width +40px
+  - bindings:
+      - win+control+k
+    commands:
+      - resize --height -40px
+  - bindings:
+      - win+control+j
+    commands:
+      - resize --height +40px
+  - bindings:
+      - win+1
+      - win+numpad1
+    commands:
+      - focus --workspace 1
+  - bindings:
+      - win+shift+1
+      - win+shift+numpad1
+    commands:
+      - move --workspace 1
+  - bindings:
+      - win+2
+      - win+numpad2
+    commands:
+      - focus --workspace 2
+  - bindings:
+      - win+shift+2
+      - win+shift+numpad2
+    commands:
+      - move --workspace 2
+  - bindings:
+      - win+3
+      - win+numpad3
+    commands:
+      - focus --workspace 3
+  - bindings:
+      - win+shift+3
+      - win+shift+numpad3
+    commands:
+      - move --workspace 3
+  - bindings:
+      - win+4
+      - win+numpad4
+    commands:
+      - focus --workspace 4
+  - bindings:
+      - win+shift+4
+      - win+shift+numpad4
+    commands:
+      - move --workspace 4
+  - bindings:
+      - win+5
+      - win+numpad5
+    commands:
+      - focus --workspace 5
+  - bindings:
+      - win+shift+5
+      - win+shift+numpad5
+    commands:
+      - move --workspace 5
+  - bindings:
+      - win+6
+      - win+numpad6
+    commands:
+      - focus --workspace 6
+  - bindings:
+      - win+shift+6
+      - win+shift+numpad6
+    commands:
+      - move --workspace 6
+  - bindings:
+      - win+7
+      - win+numpad7
+    commands:
+      - focus --workspace 7
+  - bindings:
+      - win+shift+7
+      - win+shift+numpad7
+    commands:
+      - move --workspace 7
+  - bindings:
+      - win+8
+      - win+numpad8
+    commands:
+      - focus --workspace 8
+  - bindings:
+      - win+shift+8
+      - win+shift+numpad8
+    commands:
+      - move --workspace 8
+  - bindings:
+      - win+9
+      - win+numpad9
+    commands:
+      - focus --workspace 9
+  - bindings:
+      - win+shift+9
+      - win+shift+numpad9
+    commands:
+      - move --workspace 9
+  - bindings:
+      - win+0
+      - win+numpad0
+    commands:
+      - focus --workspace 10
+  - bindings:
+      - win+shift+0
+      - win+shift+numpad0
+    commands:
+      - move --workspace 10
+  - bindings:
+      - win+w
+    commands:
+      - close
+  - bindings:
+      - win+t
+      - win+o
+    commands:
+      - toggle-floating --centered=true
+  - bindings:
+      - win+f
+    commands:
+      - toggle-fullscreen
+  - bindings:
+      - win+alt+f
+    commands:
+      - toggle-fullscreen --maximized=true
+  - bindings:
+      - win+control+f
+    commands:
+      - toggle-fullscreen --maximized=true
+  - bindings:
+      - win+alt+j
+    commands:
+      - toggle-tiling-direction
+  - bindings:
+      - win+tab
+    commands:
+      - focus --next-active-workspace
+  - bindings:
+      - win+shift+tab
+    commands:
+      - focus --prev-active-workspace
+  - bindings:
+      - win+control+tab
+    commands:
+      - focus --recent-workspace
+  - bindings:
+      - win+alt+space
+    commands:
+      - wm-cycle-focus
+  - bindings:
+      - win+shift+t
+    commands:
+      - shell-exec wslg.exe -d {{WSL_DISTRO}} --cd ~ -- /usr/bin/ghostty --gtk-single-instance=true
+  - bindings:
+      - win+shift+f
+    commands:
+      - shell-exec explorer.exe
+  - bindings:
+      - win+shift+b
+    commands:
+      - shell-exec explorer.exe https://www.google.com/
+  - bindings:
+      - win+shift+c
+    commands:
+      - shell-exec explorer.exe https://calendar.google.com/
+  - bindings:
+      - win+shift+y
+    commands:
+      - shell-exec explorer.exe https://youtube.com/
+  - bindings:
+      - win+control+g
+    commands:
+      - shell-exec explorer.exe https://gemini.google.com/app
+  - bindings:
+      - win+control+c
+    commands:
+      - shell-exec explorer.exe https://claude.ai/
+  - bindings:
+      - win+control+shift+k
+    commands:
+      - shell-exec rundll32.exe user32.dll,LockWorkStation
+  - bindings:
+      - win+f1
+    commands:
+      - shell-exec notepad.exe %USERPROFILE%/.glzr/glazewm/KEYBINDINGS.txt
+  - bindings:
+      - win+control+shift+r
+    commands:
+      - wm-reload-config
+  - bindings:
+      - win+control+shift+p
+    commands:
+      - wm-toggle-pause
+  - bindings:
+      - win+control+shift+escape
+    commands:
+      - wm-exit
