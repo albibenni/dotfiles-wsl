@@ -95,12 +95,12 @@ Win+K for focus and Win+F1 for the keybinding list.
 - GlazeWM supports horizontal/vertical split trees, not Hyprland's scrolling
   layout, pseudo tiling, scratchpad, animations or per-monitor mode setting.
   Display resolution/scaling/rotation stays in Windows Display settings.
-- Workspaces 1-9 bind to monitor 0; workspace 10 binds to monitor 1, matching
-  your primary/secondary arrangement. The live check found the 3440x1440 main
-  display at index 0 and the 2560x1440 display above it at index 1. Workspaces 1
-  and 10 stay alive. GlazeWM falls back when a bound display is absent; edit
-  `bind_to_monitor` if your Windows display order changes. Linux resolution,
-  scaling and hardware-description rules are not copied.
+- Workspaces 1-9 bind to monitor 1 (primary); workspace 10 binds to monitor 0
+  (secondary, above the primary). The live monitor order is DISPLAY3 at index 0
+  (3840x2160) and DISPLAY2 at index 1 (3840x1600). Monitor indexes are not Windows
+  display numbers. Workspaces 1 and 10 stay alive. GlazeWM falls back when a
+  bound display is absent; edit `bind_to_monitor` if the monitor order changes.
+  Display resolution and scaling stay in Windows Display settings.
 - Linux-only app launches, Omarchy menus, theme scripts, notification services,
   audio/brightness daemons and display toggles are omitted. Native Windows
   controls continue to provide those functions. Zebar is an optional future port
