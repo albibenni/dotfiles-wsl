@@ -1,6 +1,21 @@
-# Live FabrickCoreLib source map
+# Live DigitalEuroCore and FabrickCoreLib source map
 
-Paths below are relative to the library checkout. They are navigation hints, not a frozen dependency allowlist or API specification. Verify existence and content on every invocation; search for moved symbols with `rg`.
+The primary reference is `/mnt/c/Users/GBS14063/Projects/digitaleurocore`. Its root POM selects the compatible FabrickCore release; `/mnt/c/Users/GBS14063/Projects/FabrickCoreLib` supplies upstream source for that selected release. Never infer the selected version from the sibling checkout alone.
+
+Read these DigitalEuroCore sources first:
+
+| Decision | DigitalEuroCore source |
+| --- | --- |
+| Version chain, Java and overrides | Root `pom.xml`, consumer parent/module POMs; resolve properties and explicit overrides |
+| Facades versus retained extensions | `README.md`, `MIGRATION_2.md`, `COMPARISON_FABRICKCORE.md`; verify their claims against current POMs and source |
+| Shared dependency routes | Relevant `digitaleurocore-*/pom.xml`; follow the declared Fabrick modules and scopes |
+| Contract headers, problem details and signing client | `digitaleurocore-spring-boot-starter` and `digitaleurocore-spring` source/configuration/tests; preserve Digital Euro-specific behavior |
+| Extension capabilities | Relevant message-signatures, outbox, local-audit, property-storage/Vault, cache and database module README/POM/source/tests |
+| Testing | `digitaleurocore-spring-boot-starter-test/pom.xml`, module tests and root build configuration; inspect integration-test prerequisites before executing |
+
+Prefer DigitalEuroCore facades for shared features and its implementations for extension behavior. Shared Java types can still live in `it.fabrick.core.*`; artifact names do not determine Java package names. Do not infer an implementation from an artifact's name: verify source, especially skeleton modules.
+
+The following paths are relative to the supporting FabrickCoreLib checkout. They are navigation hints, not a frozen dependency allowlist or API specification. Verify existence and content on every invocation; search for moved symbols with `rg`.
 
 | Decision | Read/search |
 | --- | --- |
