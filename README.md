@@ -218,6 +218,19 @@ The CPU figure measures the WSL VM. tmux-cpu works with the existing `ps` fallba
 Kubernetes CLI/context setup is separate: the plugin is installed but hidden
 until `kubectl` or `oc` is available to tmux. It reads local context/namespace.
 
+## Rancher Desktop on Windows / WSL
+
+Install Rancher Desktop, enable integration with the current WSL distro, and
+prevent Ubuntu's native Docker service from conflicting with its socket:
+
+```bash
+./scripts/install-rancher-desktop.sh --dry-run --startup
+./scripts/install-rancher-desktop.sh --startup
+```
+
+See [installation, repair and rollback](docs/rancher-desktop.md). This installer
+is separate from Linux package installation and preserves existing container data.
+
 ## Windows tiling with GlazeWM
 
 The optional Windows window manager mirrors the Hyprland workspaces, Vim-style
