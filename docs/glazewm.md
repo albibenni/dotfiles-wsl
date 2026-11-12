@@ -62,7 +62,7 @@ shortcut also cannot lock while workstation locking is disabled.
 | Win+Alt+F / Win+Ctrl+F | Toggle maximized/full-width equivalent |
 | Win+Alt+J | Change split direction |
 | Win+Alt+Space | Cycle tiled/floating/fullscreen focus |
-| Win+Shift+T | Ghostty in the selected WSL distro |
+| Win+Shift+T | WezTerm in the selected WSL distro |
 | Win+Shift+F | Explorer |
 | Win+Shift+B | Default browser (Google start page) |
 | Win+Shift+C / Y | Calendar / YouTube |
