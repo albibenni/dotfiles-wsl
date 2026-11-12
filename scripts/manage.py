@@ -39,7 +39,6 @@ def setup(args):
         config / "tmux": REPO / "config/tmux",
         config / "nvim": REPO / "config/nvim",
         config / "starship.toml": REPO / "config/starship.toml",
-        config / "ghostty": REPO / "config/ghostty",
     }
     pending = [(t, s) for t, s in targets.items() if not (t.is_symlink() and t.resolve() == s)]
     rc = home / ".bashrc"
