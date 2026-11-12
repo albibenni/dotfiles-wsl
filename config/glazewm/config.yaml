@@ -311,7 +311,7 @@ keybindings:
   - bindings:
       - win+shift+t
     commands:
-      - shell-exec wslg.exe -d {{WSL_DISTRO}} --cd ~ -- /usr/bin/ghostty --gtk-single-instance=true
+      - shell-exec wezterm.exe start --domain WSL:{{WSL_DISTRO}}
   - bindings:
       - win+shift+f
     commands:
