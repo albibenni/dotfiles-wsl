@@ -43,7 +43,7 @@ win+tab : focus --next-active-workspace
 win+shift+tab : focus --prev-active-workspace
 win+control+tab : focus --recent-workspace
 win+alt+space : wm-cycle-focus
-win+shift+t : shell-exec wslg.exe -d {{WSL_DISTRO}} --cd ~ -- /usr/bin/ghostty --gtk-single-instance=true
+win+shift+t : shell-exec wezterm.exe start --domain WSL:{{WSL_DISTRO}}
 win+shift+f : shell-exec explorer.exe
 win+shift+b : shell-exec explorer.exe https://www.google.com/
 win+shift+c : shell-exec explorer.exe https://calendar.google.com/
