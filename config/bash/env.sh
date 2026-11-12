@@ -9,8 +9,6 @@ export EDITOR="${EDITOR:-nvim}"
 export VISUAL="${VISUAL:-$EDITOR}"
 export GIT_EDITOR="${GIT_EDITOR:-$EDITOR}"
 export SUDO_EDITOR="${SUDO_EDITOR:-$EDITOR}"
-# Linux helpers can use Ghostty when installed; Windows' console host is separate.
-if command -v ghostty >/dev/null 2>&1; then export TERMINAL="${TERMINAL:-ghostty}"; fi
 export MANPAGER="${MANPAGER:-nvim +Man!}"
 export BAT_THEME="${BAT_THEME:-ansi}"
 export FZF_DEFAULT_OPTS="${FZF_DEFAULT_OPTS:---height 40% --layout=reverse --border}"

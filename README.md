@@ -11,10 +11,23 @@ Tested against Ubuntu 26.04 with Neovim 0.11.6 and tmux 3.6. Python 3.11+ is
 needed for the setup scripts; Neovim 0.11.3+ is needed for this editor config.
 Use the Linux filesystem, for example `~/dotfiles-wsl`.
 
+On a fresh install, install mise first using its
+[official installer](https://mise.jdx.dev/getting-started):
+
+```bash
+curl -fsSL https://mise.run -o /tmp/dotfiles-mise-install.sh
+sh /tmp/dotfiles-mise-install.sh
+export PATH="$HOME/.local/bin:$PATH"
+```
+
+Then run the Linux installer from a normal WSL terminal with working sudo and
+network access. Configure native Windows WezTerm separately afterward:
+
 ```bash
 cd ~/dotfiles-wsl
 ./scripts/install.sh --dry-run
 ./scripts/install.sh
+./scripts/install-wezterm.sh
 ```
 
 The full installer runs these steps, in order:
@@ -234,7 +247,7 @@ is separate from Linux package installation and preserves existing container dat
 ## Windows tiling with GlazeWM
 
 The optional Windows window manager mirrors the Hyprland workspaces, Vim-style
-controls, Ghostty launcher and appearance using GlazeWM. It uses Windows/Super
+controls, WezTerm launcher and appearance using GlazeWM. It uses Windows/Super
 shortcuts, with Win+L for right focus after separately disabling Windows locking.
 Alt+L and Win+Right remain available.
 
@@ -249,18 +262,11 @@ This installs on Windows through winget, excludes Zebar, and backs up changed
 Windows configs. It is separate from the Linux installer. See
 [GlazeWM setup, shortcuts and differences](docs/glazewm.md).
 
-## Ghostty on WSL
+## WezTerm on Windows
 
-Ghostty is optional and has its own installer:
-
-```bash
-./scripts/install-ghostty.sh
-```
-
-It reuses your Windows Nerd Font in Linux and links `config/ghostty/config`.
-Launch **Ghostty (Ubuntu-26.04)** from Windows Start and pin it to the taskbar to
-use it as your everyday WSL terminal. The Linux build cannot be selected as the
-Windows default console host. See [Ghostty setup and defaults](docs/ghostty-wsl.md).
+Use the native Windows build with [the supplied config and setup instructions](docs/wezterm.md).
+Run `./scripts/install-wezterm.sh --dry-run` and then `./scripts/install-wezterm.sh`
+from WSL. It backs up an existing Windows config and copies the new one.
 
 ## Appearance
 
@@ -268,8 +274,8 @@ Select **CaskaydiaCove Nerd Font** in the Windows terminal running WSL. The prom
 tmux separators, Neovim icons, and eza file icons use it. A new Bash shell loads
 the updated aliases; Starship reads its configuration on each prompt.
 
-The original terminal configs use JetBrainsMono Nerd Font (Ghostty also lists
-CaskaydiaCove as a fallback). Neovim uses `nvim-web-devicons` and `lspkind`;
+The WezTerm config uses CaskaydiaCove Nerd Font with JetBrains Mono and
+Cascadia Code fallbacks. Neovim uses `nvim-web-devicons` and `lspkind`;
 there is no separate desktop icon theme involved in terminal glyph rendering.
 The larger Windows preset is in `windows-terminal/ubuntu-font.json`: the installed
 CaskaydiaCove Nerd Font at 14 pt, semibold. Use the `Nerd Font`/`NF` family, rather
@@ -309,9 +315,7 @@ cp config/projects.example ~/.config/dotfiles-wsl-projects
 Edit it to list your actual project directories, one per line. Leading `~` is
 expanded, and spaces are supported. Variables, shell code, and paths containing
 newlines are not supported in that file. Without it the picker includes `~/dotfiles` (falling back to this repo if that
-path is absent) and searches `/mnt/c/Users/GBS14063` to depth two, including
-repositories inside its `Projects` directory. This machine's `~/dotfiles` is a
-symlink to `~/dotfiles-wsl`. The dotfiles repo appears once as a project rather
+path is absent) and searches `~/Projects` to depth two. The dotfiles repo appears once as a project rather
 than exposing all its config folders. `AppData`, `.cache`, `.git` and
 `node_modules` directories are pruned; child symlinks/junctions are not followed.
 Both Bash and Neovim use `bin/tmux-projects`, so their lists stay consistent.
