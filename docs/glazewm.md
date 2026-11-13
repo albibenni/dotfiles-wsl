@@ -41,7 +41,7 @@ PowerShell directly (the repository can also be checked out on Windows):
 while running. Other Windows shortcuts remain enabled; no `NoWinKeys` policy or
 keyboard-wide remapping is applied by the installer.
 **Win+L focuses right**, alongside Alt+L and Win+Right. This requires Windows
-`DisableLockWorkstation=1`, which you configured separately. That policy disables
+`DisableLockWorkstation=1`, which must be configured separately. That policy disables
 manual workstation locking; the installer does not change it. If locking is
 restored, remove `win+l` and use the alternatives. The configured custom lock
 shortcut also cannot lock while workstation locking is disabled.
@@ -80,6 +80,50 @@ and Alt+Tab switches applications. These replace the equivalent Linux menus.
 The original Win+K menu conflicts with Vim-style upward focus: this port uses
 Win+K for focus and Win+F1 for the keybinding list.
 
+### Conflicting Windows and PowerToys shortcuts
+
+PowerToys Mouse Highlighter defaults to **Win+Shift+H**, which is also the
+GlazeWM shortcut for moving a window left. In PowerToys Settings → Mouse Utilities
+→ Mouse Highlighter, disable the utility or change its activation shortcut. The
+Windows registry setting below does not disable PowerToys shortcuts.
+
+For Explorer's conflicting Win+letter and Win+number shortcuts, an optional
+per-user configuration is available from Windows PowerShell:
+
+```powershell
+.\windows\glazewm\disable-conflicting-hotkeys.ps1 -WhatIf
+.\windows\glazewm\disable-conflicting-hotkeys.ps1
+# To restore the value saved before the first change:
+.\windows\glazewm\disable-conflicting-hotkeys.ps1 -Restore
+```
+
+Sign out and back in after applying or restoring it. This uses Explorer's
+`DisabledHotkeys` setting, which is not a complete list of Windows shortcuts:
+Windows-reserved combinations, arrow keys, Tab, and other applications can
+still conflict. It disables Explorer shortcuts by key, including combinations
+with modifiers, and applies even when GlazeWM is stopped. It preserves existing
+entries and saves the original value under `%LOCALAPPDATA%\dotfiles-wsl`.
+Restoring replaces the entire value with that original, so review any later
+changes before restoring. This setting does not change workstation locking.
+Microsoft's broader [Windows Key hotkeys policy](https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-admx-windowsexplorer#nowindowshotkeys)
+also disables unrelated shortcuts such as Win+E and Win+R. To apply that policy
+and disable workstation locking for Win+L, run the following in Windows
+PowerShell, as administrator if your registry permissions require it:
+
+```powershell
+.\windows\glazewm\windows-hotkeys-policy.ps1
+# To restore the original policy values:
+.\windows\glazewm\windows-hotkeys-policy.ps1 -Restore
+```
+
+Sign out and back in after either command. These policies apply even when
+GlazeWM is stopped. Disabling workstation locking also prevents the configured
+lock shortcut from locking the workstation. Windows can still reserve some
+combinations; verify the desired bindings after signing back in. The restore
+command replaces policy values with their saved originals, including any changes
+made since the backup. The separate `DisabledHotkeys` setting above has its own
+restore command.
+
 ## Appearance and differences
 
 - Ten workspaces. Hyprland `gaps_in=4` becomes an 8-pixel gap between adjacent
@@ -95,9 +139,9 @@ Win+K for focus and Win+F1 for the keybinding list.
 - GlazeWM supports horizontal/vertical split trees, not Hyprland's scrolling
   layout, pseudo tiling, scratchpad, animations or per-monitor mode setting.
   Display resolution/scaling/rotation stays in Windows Display settings.
-- Workspaces 1-9 bind to monitor 1 (primary); workspace 10 binds to monitor 0
-  (secondary, above the primary). The live monitor order is DISPLAY3 at index 0
-  (3840x2160) and DISPLAY2 at index 1 (3840x1600). Monitor indexes are not Windows
+- Workspaces 1-9 bind to monitor 0 (the lower Xiaomi); workspace 10 binds to
+  monitor 1 (the upper LG UltraGear). The observed monitor order is DISPLAY1 at
+  index 0 (3440x1440) and DISPLAY2 at index 1 (2560x1440). Monitor indexes are not Windows
   display numbers. Workspaces 1 and 10 stay alive. GlazeWM falls back when a
   bound display is absent; edit `bind_to_monitor` if the monitor order changes.
   Display resolution and scaling stay in Windows Display settings.
