@@ -315,7 +315,7 @@ cp config/projects.example ~/.config/dotfiles-wsl-projects
 Edit it to list your actual project directories, one per line. Leading `~` is
 expanded, and spaces are supported. Variables, shell code, and paths containing
 newlines are not supported in that file. Without it the picker includes `~/dotfiles` (falling back to this repo if that
-path is absent) and searches `~/Projects` to depth two. The dotfiles repo appears once as a project rather
+path is absent) and searches `~/Projects` and `/mnt/c/Users/alby_` to depth two. The dotfiles repo appears once as a project rather
 than exposing all its config folders. `AppData`, `.cache`, `.git` and
 `node_modules` directories are pruned; child symlinks/junctions are not followed.
 Both Bash and Neovim use `bin/tmux-projects`, so their lists stay consistent.
