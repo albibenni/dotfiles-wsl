@@ -5,7 +5,7 @@ set -euo pipefail
 repo=$(cd -- "$(dirname -- "$(readlink -f -- "${BASH_SOURCE[0]}")")/.." && pwd)
 dotfiles="$HOME/dotfiles"
 [[ -d $dotfiles ]] || dotfiles=$repo
-roots=("$dotfiles" "${DOTFILES_WSL_WINDOWS_HOME:-$HOME/Projects}")
+roots=("$dotfiles" "$HOME/Projects" "${DOTFILES_WSL_WINDOWS_HOME:-/mnt/c/Users/alby_}")
 roots_file="${XDG_CONFIG_HOME:-$HOME/.config}/dotfiles-wsl-projects"
 if [[ -f $roots_file ]]; then
     roots=()
