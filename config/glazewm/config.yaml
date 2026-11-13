@@ -317,6 +317,12 @@ keybindings:
     commands:
       - shell-exec explorer.exe
   - bindings:
+      - win+s
+      - win+shift+s
+      - control+shift+4
+    commands:
+      - 'shell-exec explorer.exe ms-screenclip:'
+  - bindings:
       - win+shift+b
     commands:
       - shell-exec explorer.exe https://www.google.com/

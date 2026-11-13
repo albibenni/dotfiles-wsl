@@ -56,7 +56,8 @@ win+control+shift+r : wm-reload-config
 win+control+shift+p : wm-toggle-pause
 win+control+shift+escape : wm-exit
 
-Native Windows shortcuts: Win+V clipboard, Win+Shift+S screenshot, Alt+Tab app switcher.
+Screenshot: Win+S, Win+Shift+S, or Ctrl+Shift+4 opens screen snipping.
+Alt+Tab switches applications.
 Pause: Win+Ctrl+Shift+P. Exit: Win+Ctrl+Shift+Escape.
 Moving to workspace (Win+Shift+number) does not follow the moved window.
 

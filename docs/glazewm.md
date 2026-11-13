@@ -64,6 +64,7 @@ shortcut also cannot lock while workstation locking is disabled.
 | Win+Alt+Space | Cycle tiled/floating/fullscreen focus |
 | Win+Shift+T | WezTerm in the selected WSL distro |
 | Win+Shift+F | Explorer |
+| Win+S / Win+Shift+S / Ctrl+Shift+4 | Start a screen snip |
 | Win+Shift+B | Default browser (Google start page) |
 | Win+Shift+C / Y | Calendar / YouTube |
 | Win+Ctrl+C / G | Claude / Gemini web |
@@ -75,8 +76,8 @@ shortcut also cannot lock while workstation locking is disabled.
 Number-pad workspace keys require Num Lock on. Both Win+number and
 Win+Shift+number accept the top row and number pad.
 
-Native Win+V opens Windows clipboard history, Win+Shift+S screenshots,
-and Alt+Tab switches applications. These replace the equivalent Linux menus.
+Alt+Tab switches applications. The Windows hotkey policy may disable native
+Win+V clipboard history; the configured screenshot shortcuts launch Snipping Tool.
 The original Win+K menu conflicts with Vim-style upward focus: this port uses
 Win+K for focus and Win+F1 for the keybinding list.
 
